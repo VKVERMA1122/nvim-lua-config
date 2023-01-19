@@ -1,18 +1,13 @@
--- local status, _ = pcall(vim.cmd, "colorscheme gruvbox")
--- if not status then
---   print("Colorscheme not found!") -- print error if colorscheme not installed
---   return
--- end
---
-local status, colorscheme= pcall(require, "onedark")
+local status, _ = pcall(vim.cmd, "colorscheme onedark")
 if not status then
   print("Colorscheme not found!") -- print error if colorscheme not installed
   return
 end
-
-colorscheme.setup {
-    style = "cool"
-}
-colorscheme.load();
-
---vim.api.nvim_set_hl(0,"Normal",{bg = "none"})
+vim.api.nvim_command("hi Normal guibg=none ctermbg=none")
+vim.api.nvim_command("hi LineNr guibg=none ctermbg=none")
+vim.api.nvim_command("hi Folded guibg=none ctermbg=none")
+vim.api.nvim_command("hi NonText guibg=none ctermbg=none")
+vim.api.nvim_command("hi SpecialKey guibg=none ctermbg=none")
+vim.api.nvim_command("hi VertSplit guibg=none ctermbg=none")
+vim.api.nvim_command("hi SignColumn guibg=none ctermbg=none")
+vim.api.nvim_command("hi EndOfBuffer guibg=none ctermbg=none")
