@@ -1,46 +1,64 @@
-local opt = vim.opt
-local g = vim.g
-local o = vim.o
-opt.guicursor = ""
-opt.relativenumber = true
-opt.number = true
+local opt = vim.opt -- for conciseness
+
+-- line numbers
+opt.relativenumber = true -- show relative line numbers
+opt.number = true -- shows absolute line number on cursor line (when relative number is on)
+
+-- tabs & indentation
+opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
+opt.shiftwidth = 2 -- 2 spaces for indent width
+opt.expandtab = true -- expand tab to spaces
+opt.autoindent = true -- copy indent from current line when starting new one
+
+-- line wrapping
 opt.wrap = false -- disable line wrapping
-opt.tabstop = 2
-opt.shiftwidth = 4
-opt.tabstop = 2
-opt.expandtab = true
-opt.autoindent = true
-opt.smartcase = true
-opt.cursorline = true
+
+-- search settings
+opt.ignorecase = true -- ignore case when searching
+opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
+
+-- cursor line
+opt.cursorline = true -- highlight the current cursor line
+
+-- appearance
+
+-- turn on termguicolors for nightfly colorscheme to work
+-- (have to use iterm2 or any other true color terminal)
 opt.termguicolors = true
-opt.clipboard:append("unnamedplus")
-opt.shell = vim.fn.executable "pwsh" and "pwsh" or "powershell"
-opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
-opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
-opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
-opt.shellquote = ""
-opt.shellxquote = ""
-opt.updatetime = 50
+opt.background = "dark" -- colorschemes that can be light or dark will be made dark
+opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+
+-- backspace
+opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+
+-- clipboard
+opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+
 -- split windows
-g.splitright = true -- split vertical window to the right
-g.splitbelow = true -- split horizontal window to the bottom
+opt.splitright = true -- split vertical window to the right
+opt.splitbelow = true -- split horizontal window to the bottom
 
-g.netrw_banner = 0
-g.netrw_altv = 1
-g.netrw_browse_split = 4
-g.netrw_liststyle = 3
-g.netrw_winsize = 25
+-- turn off swapfile
+opt.swapfile = false
 
+--cmd height
+opt.cmdheight = 0
 
-o.lazyredraw = true
-o.cmdheight = 0
-o.completeopt = 'menu,noselect'
+vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
 
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    group = highlight_group,
-    pattern = '*',
-})
+--setting shell to powershell
+local powershell_options = {
+  shell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell",
+  shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+  shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
+  shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
+  shellquote = "",
+  shellxquote = "",
+}
+
+for option, value in pairs(powershell_options) do
+  vim.opt[option] = value
+end

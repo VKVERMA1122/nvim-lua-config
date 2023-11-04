@@ -1,58 +1,69 @@
 vim.g.mapleader = " "
 
-local keymap = vim.keymap
+local keymap = vim.keymap -- for conciseness
 
-keymap.set("i", "jk", "<ESC>")
-keymap.set("n", "<Esc><Esc>", ":nohl<CR>")
-keymap.set("n", "x", '"_x')
-keymap.set("n", "<C-E>", ":Lexplore<CR>")
+---------------------
+-- General Keymaps -------------------
+
+-- use jk to exit insert mode
+keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+
+-- clear search highlights
+keymap.set("n", "<ESC><ESC>", ":nohl<CR>", { desc = "Clear search highlights" })
+
+-- delete single character without copying into register
+-- keymap.set("n", "x", '"_x')
 
 -- increment/decrement numbers
-keymap.set("n", "<leader>+", "<C-a>") -- increment
-keymap.set("n", "<leader>-", "<C-x>") -- decrement
+keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
+keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
 
 -- window management
-keymap.set("n", "<leader>sv", "<C-w>v") -- split window vertically
-keymap.set("n", "<leader>sh", "<C-w>s") -- split window horizontally
-keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width & height
-keymap.set("n", "<leader>sx", ":close<CR>") -- close current split window
+keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })     -- split window vertically
+keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })   -- split window horizontally
+keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })      -- make split windows equal width & height
+keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
-keymap.set("n", "<leader>to", ":tabnew<CR>") -- open new tab
-keymap.set("n", "<leader>tx", ":tabclose<CR>") -- close current tab
-keymap.set("n", "<leader>tn", ":tabn<CR>") --  go to next tab
-keymap.set("n", "<leader>tp", ":tabp<CR>") --  go to previous tab
+-- keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" }) -- open new tab
+-- keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" }) -- close current tab
+-- keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
+-- keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
+-- keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
 
--- telescope
-keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
-keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in current working directory as you type
-keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
--- keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
-keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
-keymap.set("n", "<leader>ft", "<cmd>Telescope colorscheme<cr>") -- list available colorscheme
-keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>") -- list available keymaps
--- keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-keymap.set('n', '<leader>/', function()
-    -- You can pass additional configuration to telescope to change theme, layout, etc.
-    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-        winblend = 10,
-        previewer = false,
-    })
-end, { desc = '[/] Fuzzily search in current buffer]' })
-keymap.set('n', '<leader>fb', function()
-    -- You can pass additional configuration to telescope to change theme, layout, etc.
-    require('telescope.builtin').buffers(require('telescope.themes').get_dropdown {
-        winblend = 10,
-        previewer = false,
-    })
-end, { desc = '[/] Fuzzily search in current buffer]' })
+keymap.set("n", "<leader>gl", function() vim.diagnostic.open_float() end, { desc = "Open floating diagnostic message" })
+keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, { desc = "Go to previous diagnostic message" })
+keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, { desc = "Go to next diagnostic message" })
 
--- telescope git commands (not on youtube nvim video)
-keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>") -- list all git commits (use <cr> to checkout) ["gc" for git commits]
-keymap.set("n", "<leader>gfc", "<cmd>Telescope git_bcommits<cr>") -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
-keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>") -- list git branches (use <cr> to checkout) ["gb" for git branch]
-keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current changes per file with diff preview ["gs" for git status]
+keymap.set("n", "gd", function() vim.lsp.buf.definition() end, { desc = "Lsp goto definition" })
+keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = "Lsp hover definition" })
+keymap.set("n", "<leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP Code action" })
+keymap.set("n", "<leader>lr", function() vim.lsp.buf.references() end, { desc = "LSP Code References " })
+keymap.set("n", "<leader>ln", function() vim.lsp.buf.rename() end, { desc = "LSP Code Rename" })
+keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, { desc = "LSP Signature Help" })
+keymap.set("n", "<leader>lf", function() vim.lsp.buf.format() end, { desc = "LSP Buffer Format" })
 
--- restart lsp server (not on youtube nvim video)
-keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
+
+--toggle terminal
+-- keymap.set("n", "<C-/>", "ToggleTerm size=10 direction=horizontal<cr>", { desc = "ToggleTerm horizontal" })
+--
+-- Improved Terminal Navigation
+
+keymap.set("n", "<leader>lf", function() vim.lsp.buf.format() end, { desc = "LSP Buffer Format" })
+
+keymap.set("n", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Terminal left window navigation" })
+keymap.set("n", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Terminal down window navigation" })
+keymap.set("n", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Terminal up window navigation" })
+keymap.set("n", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Terminal right window navigation" })
+
+--folds
+--keymap.set("n", "zR", require("ufo").openAllFolds, { desc = "Open all folds" })
+--keymap.set("n", "zM", require("ufo").closeAllFolds, { desc = "Close all folds" })
+--vim.keymap.set("n", "K", function()
+--   local winid = require("ufo").peekFoldedLinesUnderCursor()
+--   if not winid then
+--       -- choose one of coc.nvim and nvim lsp
+--       vim.fn.CocActionAsync("definitionHover") -- coc.nvim
+--       vim.lsp.buf.hover()
+--   end
+--end)

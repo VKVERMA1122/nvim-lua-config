@@ -1,13 +1,4 @@
-require("vkverma.plugins-setup")
-require("vkverma.core.colorscheme")
-require("vkverma.core.options")
-require("vkverma.core.keymaps")
-require("vkverma.plugins.comment")
-require("vkverma.plugins.telescope")
-require("vkverma.plugins.treesitter")
-require("vkverma.plugins.lspzero")
-require("vkverma.plugins.gitsigns")
-require("vkverma.plugins.lualine")
-require("vkverma.plugins.toggleterm")
-require("vkverma.plugins.alpha")
-require("vkverma.plugins.indent")
+require("vkverma.core")
+require("vkverma.lazy")
+
+
