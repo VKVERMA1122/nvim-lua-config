@@ -58,7 +58,6 @@ local powershell_options = {
   shellquote = "",
   shellxquote = "",
 }
-
 for option, value in pairs(powershell_options) do
   vim.opt[option] = value
 end
