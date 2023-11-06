@@ -92,3 +92,5 @@ else
   keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Resize split right" })
 end
 
+--hop navigation
+keymap.set("n","<leader>hw","<cmd>HopWord<cr>",{desc = "Hop word"})
