@@ -4,8 +4,7 @@ return {
   version = "*",
   opts = {
     options = {
-      mode = "tabs",
-      separator_style = "slant",
+      diagnostics = "nvim_lsp"
     },
   },
 }

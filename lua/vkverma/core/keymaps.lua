@@ -35,7 +35,10 @@ keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, { desc = "
 keymap.set("n", "<leader>lf", function() vim.lsp.buf.format() end, { desc = "LSP Buffer Format" })
 keymap.set("n", "<leader>lf", function() vim.lsp.buf.format() end, { desc = "LSP Buffer Format" })
 
-
+--buffer navigation
+keymap.set("n","[b","<cmd>bnext<cr>",{desc="Switch to next buffer"})
+keymap.set("n","]b","<cmd>bprev<cr>",{desc="Switch to previous buffer"})
+keymap.set("n","'b","<cmd>bd<cr>",{desc="Switch to previous buffer"})
 
 --terminal navigation
 keymap.set("n", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Terminal left window navigation" })
