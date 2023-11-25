@@ -93,4 +93,4 @@ else
 end
 
 --hop navigation
-keymap.set("n","s","<cmd>HopWord<cr>",{desc = "Hop word"})
+-- keymap.set("n","s","<cmd>HopWord<cr>",{desc = "Hop word"})
