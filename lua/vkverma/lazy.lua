@@ -18,9 +18,9 @@ require("lazy").setup({ { import = "vkverma.plugins" } }, {
   -- },
   checker = {
     enabled = true,
-    notify = true,
+    notify = false,
   },
   change_detection = {
-    notify = true,
+    notify = false,
   },
 })
