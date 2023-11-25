@@ -1,5 +1,3 @@
-vim.g.mapleader = " "
-
 local keymap = vim.keymap -- for conciseness
 
 function is_available(plugin)
@@ -62,7 +60,7 @@ keymap.set("n", "<leader>gS", function() require("gitsigns").stage_buffer() end,
 keymap.set("n", "<leader>gu", function() require("gitsigns").undo_stage_hunk() end, { desc = "Unstage Git hunk" })
 keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis() end, { desc = "View Git diff" })
 
---ToggleTerm 
+--ToggleTerm
 keymap.set("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>",
   { desc = "ToggleTerm horizontal split" })
 keymap.set("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", { desc = "ToggleTerm vertical split" })
@@ -93,4 +91,4 @@ else
 end
 
 --hop navigation
--- keymap.set("n","s","<cmd>HopWord<cr>",{desc = "Hop word"})
+keymap.set("n", "s", "<cmd>HopWord<cr>", { desc = "Hop word" })
