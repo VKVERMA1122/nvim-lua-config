@@ -85,3 +85,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+--neovide
+if vim.g.neovide then
+  -- Put anything you want to happen only in Neovide here
+
+  vim.o.guifont = "FiraCode NFM:h12" -- text below applies for VimScript
+  vim.g.neovide_padding_top = 0
+  vim.g.neovide_padding_bottom = 0
+  vim.g.neovide_padding_right = 0
+  vim.g.neovide_padding_left = 0
+
+  -- vim.g.neovide_cursor_antialiasing = true
+  vim.g.neovide_fullscreen = true
+  -- vim.g.neovide_refresh_rate_idle = 5
+  -- vim.g.neovide_refresh_rate = 60
+  vim.g.neovide_theme = 'auto'
+end
