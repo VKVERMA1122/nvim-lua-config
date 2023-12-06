@@ -42,7 +42,7 @@ return {
         previewer = false,
       })
     end, { desc = '[/] Fuzzily search in current buffer]' })
-    keymap.set('n', '<leader>fb', function()
+    keymap.set('n', '<leader><leader>', function()
       -- You can pass additional configuration to telescope to change theme, layout, etc.
       require('telescope.builtin').buffers(require('telescope.themes').get_dropdown {
         winblend = 10,
