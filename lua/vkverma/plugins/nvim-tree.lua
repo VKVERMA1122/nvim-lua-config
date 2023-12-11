@@ -20,18 +20,108 @@ return {
       },
       -- change folder arrow icons
       renderer = {
+        add_trailing = false,
+        group_empty = false,
+        full_name = false,
+        root_folder_label = ":~:s?$?/..?",
+        indent_width = 2,
+        special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+        symlink_destination = true,
+        highlight_git = false,
+        highlight_diagnostics = false,
+        highlight_opened_files = "none",
+        highlight_modified = "none",
+        highlight_bookmarks = "none",
+        highlight_clipboard = "name",
         indent_markers = {
-          enable = true,
+          enable = false,
+          inline_arrows = true,
+          icons = {
+            corner = "└",
+            edge = "│",
+            item = "│",
+            bottom = "─",
+            none = " ",
+          },
         },
         icons = {
-          glyphs = {
+          web_devicons = {
+            file = {
+              enable = true,
+              color = true,
+            },
             folder = {
-              arrow_closed = "", -- arrow when folder is closed
-              arrow_open = "", -- arrow when folder is open
+              enable = false,
+              color = true,
+            },
+          },
+          git_placement = "before",
+          modified_placement = "after",
+          diagnostics_placement = "signcolumn",
+          bookmarks_placement = "signcolumn",
+          padding = " ",
+          symlink_arrow = " ➛ ",
+          show = {
+            file = true,
+            folder = true,
+            folder_arrow = true,
+            git = true,
+            modified = true,
+            diagnostics = true,
+            bookmarks = true,
+          },
+          glyphs = {
+            default = "",
+            symlink = "",
+            bookmark = "󰆤",
+            modified = "●",
+            folder = {
+              arrow_closed = "",
+              arrow_open = "",
+              default = "",
+              open = "",
+              empty = "",
+              empty_open = "",
+              symlink = "",
+              symlink_open = "",
+            },
+            git = {
+              unstaged = "✗",
+              staged = "✓",
+              unmerged = "",
+              renamed = "➜",
+              untracked = "★",
+              deleted = "",
+              ignored = "◌",
             },
           },
         },
       },
+      git = {
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+        disable_for_dirs = {},
+        timeout = 400,
+        cygwin_support = false,
+      },
+      diagnostics = {
+        enable = false,
+        show_on_dirs = false,
+        show_on_open_dirs = true,
+        debounce_delay = 50,
+        severity = {
+          min = vim.diagnostic.severity.HINT,
+          max = vim.diagnostic.severity.ERROR,
+        },
+        icons = {
+          hint = "",
+          info = "",
+          warning = "",
+          error = "",
+        },
+      },
+
       -- disable window_picker for
       -- explorer to work well with
       -- window splits
@@ -45,16 +135,15 @@ return {
       filters = {
         custom = { ".DS_Store" },
       },
-      git = {
-        ignore = false,
-      },
+
     })
 
     -- set keymaps
-    local keymap = vim.keymap                                                                                         -- for conciseness
-    keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })      -- toggle file explorer
-    keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>",{ desc = "Toggle file explorer on current file" })                                            -- toggle file explorer on current file
-    keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
-    keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })   -- refresh file explorer
+    local keymap = vim
+        .keymap                                                                                                         -- for conciseness
+    keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })                          -- toggle file explorer
+    keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" }) -- toggle file explorer on current file
+    keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })                     -- collapse file explorer
+    keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })                       -- refresh file explorer
   end,
 }
