@@ -34,10 +34,10 @@ return {
 
         -- And you can configure cmp even more, if you want to.
         local cmp = require('cmp')
-        local border_opts = {
-          border = "rounded",
-          winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-        }
+        -- local border_opts = {
+        --   border = "rounded",
+        --   winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+        -- }
         cmp.setup({
           preselect = cmp.PreselectMode.None,
           duplicates = {
