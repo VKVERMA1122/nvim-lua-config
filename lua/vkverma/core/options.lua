@@ -1,5 +1,4 @@
 local opt = vim.opt -- for conciseness
-
 vim.g.skip_ts_context_commentstring_module = true
 -- line numbers
 opt.relativenumber = true -- show relative line numbers

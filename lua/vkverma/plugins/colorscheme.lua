@@ -1,6 +1,6 @@
 return{
 
-     vim.cmd([[colorscheme habamax]])
+     vim.cmd([[colorscheme murphy]])
 }
 -- return {
 --   "ellisonleao/gruvbox.nvim",
