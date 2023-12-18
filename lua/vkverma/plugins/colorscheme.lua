@@ -17,32 +17,31 @@ return {
     --   "rebelot/kanagawa.nvim", priority = 1000
     -- },
     -- { "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
-    { "bluz71/vim-moonfly-colors",  name = "moonfly",  lazy = false, priority = 1000 },
-    -- {
-    --
-    --   "ellisonleao/gruvbox.nvim",
-    --   priority = 1000,
-    --   config = function()
-    --     require("gruvbox").setup({
-    --       terminal_colors = true, -- add neovim terminal colors
-    --       undercurl = true,
-    --       underline = true,
-    --       bold = true,
-    --       italic = {
-    --         strings = false,
-    --         emphasis = true,
-    --         comments = false,
-    --         operators = false,
-    --         folds = true,
-    --       },
-    --       dim_inactive = false,
-    --       transparent_mode = true,
-    --     })
-    --     -- vim.o.background = "dark" -- or "light" for light mode
-    --   end,
-    --   opts = {
-    --   }
-    -- }, 
+    -- { "bluz71/vim-moonfly-colors",  name = "moonfly",  lazy = false, priority = 1000 },
+    {
+      "ellisonleao/gruvbox.nvim",
+      priority = 1000,
+      config = function()
+        require("gruvbox").setup({
+          terminal_colors = true, -- add neovim terminal colors
+          undercurl = true,
+          underline = true,
+          bold = true,
+          italic = {
+            strings = false,
+            emphasis = true,
+            comments = false,
+            operators = false,
+            folds = true,
+          },
+          dim_inactive = false,
+          transparent_mode = true,
+        })
+        vim.o.background = "dark" -- or "light" for light mode
+      end,
+      opts = {
+      }
+    }, 
   --    {
   --   "navarasu/onedark.nvim",
   --   priority = 1000,
