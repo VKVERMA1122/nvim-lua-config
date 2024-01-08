@@ -1,32 +1,25 @@
--- return {
---
--- }
 return {
-  {
-    {
-      "ellisonleao/gruvbox.nvim",
-      priority = 1000,
-      config = function()
-        require("gruvbox").setup({
-          terminal_colors = true, -- add neovim terminal colors
-          undercurl = true,
-          underline = true,
-          bold = true,
-          italic = {
-            strings = false,
-            emphasis = true,
-            comments = false,
-            operators = false,
-            folds = true,
-          },
-          dim_inactive = false,
-          transparent_mode = true,
-        })
-        vim.o.background = "dark" -- or "light" for light mode
-        vim.cmd([[colorscheme gruvbox]])
-      end,
-      opts = {
-      }
-    },
+  "ellisonleao/gruvbox.nvim",
+  priority = 1000,
+  config = function()
+    require("gruvbox").setup({
+      terminal_colors = true,     -- add neovim terminal colors
+      undercurl = true,
+      underline = true,
+      bold = true,
+      italic = {
+        strings = false,
+        emphasis = true,
+        comments = false,
+        operators = false,
+        folds = true,
+      },
+      dim_inactive = false,
+      transparent_mode = true,
+    })
+    vim.o.background = "dark"     -- or "light" for light mode
+    vim.cmd([[colorscheme gruvbox]])
+  end,
+  opts = {
   }
 }

@@ -20,18 +20,6 @@ keymap.set("n", "x", '"_x')
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
 keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
 
---lsp keymaps
-keymap.set("n", "gl", function() vim.diagnostic.open_float() end, { desc = "Open floating diagnostic message" })
-keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, { desc = "Go to previous diagnostic message" })
-keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, { desc = "Go to next diagnostic message" })
-keymap.set("n", "gd", function() vim.lsp.buf.definition() end, { desc = "Lsp goto definition" })
-keymap.set("n", "K", function() vim.lsp.buf.hover() end, { desc = "Lsp hover definition" })
-keymap.set("n", "<leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP Code action" })
-keymap.set("n", "<leader>lr", function() vim.lsp.buf.references() end, { desc = "LSP Code References " })
-keymap.set("n", "<leader>ln", function() vim.lsp.buf.rename() end, { desc = "LSP Code Rename" })
-keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, { desc = "LSP Signature Help" })
-keymap.set("n", "<leader>lf", function() vim.lsp.buf.format() end, { desc = "LSP Buffer Format" })
-
 --buffer navigation
 keymap.set("n", "[b", "<cmd>bnext<cr>", { desc = "Switch to next buffer" })
 keymap.set("n", "]b", "<cmd>bprev<cr>", { desc = "Switch to previous buffer" })
@@ -42,39 +30,17 @@ keymap.set("n", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Terminal left window nav
 keymap.set("n", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Terminal down window navigation" })
 keymap.set("n", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Terminal up window navigation" })
 keymap.set("n", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Terminal right window navigation" })
+
+--splits
 keymap.set("n", "|", "<cmd>vsplit<cr>", { desc = "Vertical Split" })
 keymap.set("n", "\\", "<cmd>split<cr>", { desc = "Horizontal Split" })
 
-
---ToggleTerm
-keymap.set("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>",
-  { desc = "ToggleTerm horizontal split" })
-keymap.set("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", { desc = "ToggleTerm vertical split" })
-keymap.set("n", "<F7>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" })
-keymap.set("t", "<F7>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" })
-keymap.set("n", "<C-z>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" }) -- requires terminal that supports binding <C-'>
-keymap.set("t", "<C-z>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" }) -- requires terminal that supports binding <C-'>
-
--- Smart Splits
-if is_available "smart-splits.nvim" then
-  keymap.set("n", "<C-h>", function() require("smart-splits").move_cursor_left() end, { desc = "Move to left split" })
-  keymap.set("n", "<C-j>", function() require("smart-splits").move_cursor_down() end, { desc = "Move to below split" })
-  keymap.set("n", "<C-k>", function() require("smart-splits").move_cursor_up() end, { desc = "Move to above split" })
-  keymap.set("n", "<C-l>", function() require("smart-splits").move_cursor_right() end, { desc = "Move to right split" })
-  keymap.set("n", "<C-Up>", function() require("smart-splits").resize_up() end, { desc = "Resize split up" })
-  keymap.set("n", "<C-Down>", function() require("smart-splits").resize_down() end, { desc = "Resize split down" })
-  keymap.set("n", "<C-Left>", function() require("smart-splits").resize_left() end, { desc = "Resize split left" })
-  keymap.set("n", "<C-Right>", function() require("smart-splits").resize_right() end, { desc = "Resize split right" })
-else
-  keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left split" })
-  keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to below split" })
-  keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to above split" })
-  keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right split" })
-  keymap.set("n", "<C-Up>", "<cmd>resize -2<CR>", { desc = "Resize split up" })
-  keymap.set("n", "<C-Down>", "<cmd>resize +2<CR>", { desc = "Resize split down" })
-  keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Resize split left" })
-  keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Resize split right" })
-end
-
---hop navigation
--- keymap.set("n", "s", "<cmd>HopWord<cr>", { desc = "Hop word" })
+-- Splits navigation
+keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left split" })
+keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to below split" })
+keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to above split" })
+keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right split" })
+keymap.set("n", "<C-Up>", "<cmd>resize -2<CR>", { desc = "Resize split up" })
+keymap.set("n", "<C-Down>", "<cmd>resize +2<CR>", { desc = "Resize split down" })
+keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Resize split left" })
+keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Resize split right" })

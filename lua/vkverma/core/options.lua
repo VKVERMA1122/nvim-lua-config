@@ -1,9 +1,5 @@
 local opt = vim.opt -- for conciseness
 
---colorscheme set
--- vim.cmd([[colorscheme moonfly]])
-
-
 vim.g.skip_ts_context_commentstring_module = true
 
 -- line numbers
