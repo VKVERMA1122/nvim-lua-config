@@ -17,11 +17,20 @@ return {
     opts = {
       auto_install = true,
     },
-    handlers = {
-      function(server_name)
-        require("lspconfig")[server_name].setup {}
-      end
-    },
+    -- handlers = {
+    --   function(server_name)
+    --     local cmp = require("cmp_nvim_lsp")
+    --     local capabilities =  vim.tbl_deep_extend(
+    --       "force",
+    --       cmp.default_capabilities(),
+    --       require("lspconfig")[server_name].capabilities
+    --     )
+    --     require("lspconfig")[server_name].setup {
+    --       on_attach = on_attach,
+    --       capabilities = capabilities
+    --     }
+    --   end
+    -- },
   },
   {
     "neovim/nvim-lspconfig",
@@ -87,6 +96,13 @@ return {
         capabilities = capabilities,
         on_attach = on_attach,
       })
+
+      -- configure rust_analyzer server
+      lspconfig["rust_analyzer"].setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
       -- configure lua server (with special settings)
       lspconfig["lua_ls"].setup({
         capabilities = capabilities,

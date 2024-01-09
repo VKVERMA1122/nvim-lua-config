@@ -38,7 +38,7 @@ opt.splitbelow = true -- split horizontal window to the bottom
 opt.swapfile = false
 
 --cmd height
-opt.cmdheight = 0
+opt.cmdheight = 1
 
 --folds
 vim.o.foldcolumn = '1' -- '0' is not bad
@@ -89,8 +89,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 --neovide
 if vim.g.neovide then
   -- Put anything you want to happen only in Neovide here
-
-  vim.o.guifont = "FiraCode NFM:h12" -- text below applies for VimScript
+  vim.o.guifont = "JetBrainsMono NFM:h12" -- text below applies for VimScript
   vim.g.neovide_padding_top = 0
   vim.g.neovide_padding_bottom = 0
   vim.g.neovide_padding_right = 0
@@ -102,3 +101,4 @@ if vim.g.neovide then
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_theme = 'auto'
 end
+

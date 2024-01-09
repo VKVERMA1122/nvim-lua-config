@@ -13,9 +13,6 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " "
 require("lazy").setup({ { import = "vkverma.plugins" } }, {
-  -- install = {
-  --   colorscheme = { "nightfly" },
-  -- },
   defaults = { lazy = false },
   checker = {
     enabled = true,

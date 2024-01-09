@@ -1,62 +1,57 @@
 return {
-  "goolord/alpha-nvim",
-  event = "VimEnter",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  config = function()
-    local alpha = require("alpha")
-    local dashboard = require("alpha.themes.dashboard")
+  {
+    "goolord/alpha-nvim",
+    event = "VimEnter",
+    opts = function()
+      local dashboard = require("alpha.themes.dashboard")
+      -- 			local logo = [[
+      --                                              
+      --       ████ ██████           █████      ██
+      --      ███████████             █████ 
+      --      █████████ ███████████████████ ███   ███████████
+      --     █████████  ███    █████████████ █████ ██████████████
+      --    █████████ ██████████ █████████ █████ █████ ████ █████
+      --  ███████████ ███    ███ █████████ █████ █████ ████ █████
+      -- ██████  █████████████████████ ████ █████ █████ ████ ██████
+      -- ]]
 
-    -- -- Set header
-    -- dashboard.section.header.val = {
-    --   "                                                     ",
-    --   "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
-    --   "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
-    --   "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
-    --   "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
-    --   "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
-    --   "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
-    --   "                                                     ",
-    -- }
+      local logo = [[
 
-    -- Set header
-    dashboard.section.header.val = {
-      "  __   __  ___   _  __   __  _______  ______    __   __  _______",
-      " |  | |  ||   | | ||  | |  ||       ||    _ |  |  |_|  ||   _   |",
-      " |  |_|  ||   |_| ||  |_|  ||    ___||   | ||  |       ||  |_|  |",
-      " |       ||      _||       ||   |___ |   |_||_ |       ||       |",
-      " |       ||     |_ |       ||    ___||    __  ||       ||       |",
-      "  |     | |    _  | |     | |   |___ |   |  | || ||_|| ||   _   |",
-      "   |___|  |___| |_|  |___|  |_______||___|  |_||_|   |_||__| |__|",
-    }
-
-    -- Set menu
-    dashboard.section.buttons.val = {
-      dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
-      dashboard.button("SPC e", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
-      dashboard.button("SPC ff", "󰱼  > Find File", "<cmd>Telescope find_files<CR>"),
-      dashboard.button("SPC fs", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
-      dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),
-    }
-
-    -- Send config to alpha
-    alpha.setup(dashboard.opts)
-    vim.api.nvim_create_autocmd("User", {
-      once = true,
-      pattern = "LazyVimStarted",
-      callback = function()
-        local stats = require("lazy").stats()
-        local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-        dashboard.section.footer.val = "⚡ Neovim loaded "
-            .. stats.loaded
-            .. "/"
-            .. stats.count
-            .. " plugins in "
-            .. ms
-            .. "ms"
-        pcall(vim.cmd.AlphaRedraw)
-      end,
-    })
-    -- Disable folding on alpha buffer
-    vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
-  end,
+      ██╗   ██╗██╗  ██╗██╗   ██╗███████╗██████╗ ███╗   ███╗ █████╗
+      ██║   ██║██║ ██╔╝██║   ██║██╔════╝██╔══██╗████╗ ████║██╔══██╗
+      ██║   ██║█████╔╝ ██║   ██║█████╗  ██████╔╝██╔████╔██║███████║
+      ╚██╗ ██╔╝██╔═██╗ ╚██╗ ██╔╝██╔══╝  ██╔══██╗██║╚██╔╝██║██╔══██║
+       ╚████╔╝ ██║  ██╗ ╚████╔╝ ███████╗██║  ██║██║ ╚═╝ ██║██║  ██║
+        ╚═══╝  ╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝
+]]
+      dashboard.section.header.val = vim.split(logo, "\n")
+      dashboard.section.buttons.val = {
+        dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
+        dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
+        dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
+        dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
+        dashboard.button("q", " " .. " Quit", ":qa<CR>"),
+      }
+      dashboard.section.header.opts.hl = "AlphaHeader"
+      dashboard.opts.layout[1].val = 6
+      return dashboard
+    end,
+    config = function(_, dashboard)
+      require("alpha").setup(dashboard.opts)
+      vim.api.nvim_create_autocmd("User", {
+        callback = function()
+          local stats = require("lazy").stats()
+          local ms = math.floor(stats.startuptime * 100) / 100
+          dashboard.section.footer.val = "󱐌 Lazy-loaded "
+              .. stats.loaded
+              .. "/"
+              .. stats.count
+              .. " plugins in "
+              .. ms
+              .. "ms"
+          pcall(vim.cmd.AlphaRedraw)
+        end,
+      })
+    end,
+  },
 }
