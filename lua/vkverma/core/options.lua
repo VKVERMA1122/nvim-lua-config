@@ -25,7 +25,7 @@ opt.cursorline = true -- highlight the current cursor line
 -- appearance
 opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes"  -- show sign column so that text doesn't shift
+opt.signcolumn = "yes"  -- show sign column so that text doesn"t shift
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
@@ -40,27 +40,33 @@ opt.swapfile = false
 --cmd height
 opt.cmdheight = 1
 
+-- Sets how neovim will display certain whitespace in the editor.
+--  See :help 'list'
+--  and :help 'listchars'
+opt.list = true
+opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+
 --folds
-vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldcolumn = "1" -- "0" is not bad
 vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
 -- clipboard
-vim.o.clipboard = 'unnamedplus'
+vim.o.clipboard = "unnamedplus"
 
 -- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = "yes"
 
 -- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = "menuone,noselect"
 
 --setting shell to powershell
-if vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 or vim.fn.has('win16') == 1 then
+if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 or vim.fn.has("win16") == 1 then
   local powershell_options = {
     shell = vim.fn.executable "pwsh" == 1 and "pwsh" or "powershell",
     shellcmdflag =
@@ -77,13 +83,13 @@ end
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank()
   end,
   group = highlight_group,
-  pattern = '*',
+  pattern = "*",
 })
 
 --neovide
@@ -99,6 +105,6 @@ if vim.g.neovide then
   -- vim.g.neovide_fullscreen = true
   vim.g.neovide_refresh_rate_idle = 5
   vim.g.neovide_refresh_rate = 60
-  vim.g.neovide_theme = 'auto'
+  vim.g.neovide_theme = "auto"
 end
 

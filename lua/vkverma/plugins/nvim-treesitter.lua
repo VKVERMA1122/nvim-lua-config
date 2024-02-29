@@ -11,7 +11,7 @@ return {
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     build = ":TSUpdate",
     init = function(plugin)
-      -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
+      -- PERF: add nvim-treesitter queries to the rtp and it"s custom query predicates early
       -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
       -- no longer trigger the **nvim-treeitter** module to be loaded in time.
       -- Luckily, the only thins that those plugins need are the custom queries, which we make available
@@ -24,7 +24,7 @@ return {
       return {
         autotag = { enable = true },
         context_commentstring = { enable = true, enable_autocmd = false },
-        -- HACK: force install of shipped neovim parsers since TSUpdate doesn't correctly update them
+        -- HACK: force install of shipped neovim parsers since TSUpdate doesn"t correctly update them
         ensure_installed = {
           "c",
           "lua",
