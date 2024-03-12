@@ -6,6 +6,18 @@ vim.g.skip_ts_context_commentstring_module = true
 opt.relativenumber = true -- show relative line numbers
 opt.number = true         -- shows absolute line number on cursor line (when relative number is on)
 
+-- Don't show the mode, since it's already in status line
+opt.showmode = false
+
+-- Enable break indent
+opt.breakindent = true
+
+-- Keep signcolumn on by default
+opt.signcolumn = 'yes'
+
+-- Minimal number of screen lines to keep above and below the cursor.
+opt.scrolloff = 10
+
 -- tabs & indentation
 opt.tabstop = 2       -- 2 spaces for tabs (prettier default)
 opt.shiftwidth = 2    -- 2 spaces for indent width
@@ -107,4 +119,3 @@ if vim.g.neovide then
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_theme = "auto"
 end
-
