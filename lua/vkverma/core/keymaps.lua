@@ -44,3 +44,6 @@ keymap.set("n", "<C-Up>", "<cmd>resize -2<CR>", { desc = "Resize split up" })
 keymap.set("n", "<C-Down>", "<cmd>resize +2<CR>", { desc = "Resize split down" })
 keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Resize split left" })
 keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Resize split right" })
+
+--Lexplore
+keymap.set("n", "<leader>e", "<cmd>Lex 30<cr>", { desc = "Open Lexplore" })

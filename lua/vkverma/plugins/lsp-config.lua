@@ -1,6 +1,6 @@
 return {
   {
-    event="VeryLazy",
+    event = "VeryLazy",
     "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
@@ -17,21 +17,19 @@ return {
     "williamboman/mason-lspconfig.nvim",
     opts = {
       auto_install = true,
+      diagnostics = {
+        underline = true,
+        update_in_insert = false,
+        virtual_text = {
+          spacing = 4,
+          source = "if_many",
+          prefix = "●",
+          -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+          -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+          -- prefix = "icons",
+        },
+      }
     },
-    -- handlers = {
-    --   function(server_name)
-    --     local cmp = require("cmp_nvim_lsp")
-    --     local capabilities =  vim.tbl_deep_extend(
-    --       "force",
-    --       cmp.default_capabilities(),
-    --       require("lspconfig")[server_name].capabilities
-    --     )
-    --     require("lspconfig")[server_name].setup {
-    --       on_attach = on_attach,
-    --       capabilities = capabilities
-    --     }
-    --   end
-    -- },
   },
   {
     "neovim/nvim-lspconfig",
@@ -51,7 +49,6 @@ return {
       local opts = { noremap = true, silent = true }
       local on_attach = function(client, bufnr)
         opts.buffer = bufnr
-
         --lsp keymaps
         keymap.set("n", "gl", function() vim.diagnostic.open_float() end,
           { desc = "Open floating diagnostic message" })

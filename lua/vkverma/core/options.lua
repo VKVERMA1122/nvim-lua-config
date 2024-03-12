@@ -108,3 +108,4 @@ if vim.g.neovide then
   vim.g.neovide_theme = "auto"
 end
 
+vim.cmd([[colorscheme habamax]])
