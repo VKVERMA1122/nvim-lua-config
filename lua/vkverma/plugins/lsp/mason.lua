@@ -1,5 +1,6 @@
 return {
 	"williamboman/mason.nvim",
+	event = "VeryLazy", -- Optional lazy loading
 	dependencies = {
 		"williamboman/mason-lspconfig.nvim",
 		-- "WhoIsSethDaniel/mason-tool-installer.nvim",

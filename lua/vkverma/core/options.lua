@@ -21,14 +21,20 @@ opt.cursorline = true
 -- (have to use iterm2 or any other true color terminal)
 opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
+vim.cmd([[colorscheme retrobox]])
 opt.termguicolors = true
 opt.cmdheight = 0 -- make command line smaller
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 vim.o.guifont = "FiraCode NFM:h11"
 
--- opt.foldmethod = "expr" -- fold based on indentation
--- opt.foldexpr = "nvim_treesitter#foldexpr()" -- fold based on treesitter
+opt.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
+opt.foldcolumn = "1"
+opt.foldenable = true
+opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.foldmethod = "expr"
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
