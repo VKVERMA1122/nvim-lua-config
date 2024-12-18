@@ -4,7 +4,7 @@ return {
 	version = "*",
 	opts = {
 		options = {
-			mode = "buffer",
+			mode = "tabs",
 			diagnostics = "nvim_lsp",
 			diagnostics_update_on_event = true, -- use nvim's diagnostic handler
 			buffer_close_icon = "󰅖",
