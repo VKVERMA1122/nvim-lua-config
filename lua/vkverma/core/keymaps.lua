@@ -31,7 +31,12 @@ keymap.set("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode"
 --buffer navigation
 keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Switch to next buffer" })
 keymap.set("n", "<S-Tab>", "<cmd>bprev<cr>", { desc = "Switch to previous buffer" })
-keymap.set("n", "'b", "<cmd>bd<cr>", { desc = "Switch close current buffer" })
+keymap.set("n", "'b", "<cmd>bd<cr>", { desc = "Close current buffer" })
+keymap.set("n", "<leader>bn", "<cmd>:enew<cr>", { desc = "New buffer" })
+keymap.set("n", "<leader>1", ":BufferLineGoToBuffer 1<CR>", { noremap = true, silent = true })
+keymap.set("n", "<leader>2", ":BufferLineGoToBuffer 2<CR>", { noremap = true, silent = true })
+keymap.set("n", "<leader>3", ":BufferLineGoToBuffer 3<CR>", { noremap = true, silent = true })
+keymap.set("n", "<leader>4", ":BufferLineGoToBuffer 4<CR>", { noremap = true, silent = true })
 
 --terminal navigation
 keymap.set("n", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Terminal left window navigation" })

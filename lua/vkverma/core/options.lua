@@ -29,12 +29,10 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 vim.o.guifont = "FiraCode NFM:h11"
 
 opt.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
-opt.foldcolumn = "1"
-opt.foldenable = true
-opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
-opt.foldlevel = 99
-opt.foldlevelstart = 99
-opt.foldmethod = "expr"
+opt.foldcolumn = "1" -- show foldcolumn
+opt.foldenable = true -- enable fold for nvim-ufo
+opt.foldlevel = 99 -- set high foldlevel for nvim-ufo
+opt.foldlevelstart = 99 -- start with all code unfolded
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
