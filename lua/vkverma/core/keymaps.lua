@@ -31,8 +31,8 @@ keymap.set("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode"
 --tabs navigation
 keymap.set("n", "<Tab>", "gt", { desc = "Switch to next tab" })
 keymap.set("n", "<S-Tab>", "gT", { desc = "Switch to previous tab" })
-keymap.set("n", "'b", "<cmd>:tabclose<cr>", { desc = "Close current tab" })
-keymap.set("n", "<leader>bn", "<cmd>:tabnew<cr>", { desc = "Create new tab" })
+keymap.set("n", "'t", "<cmd>:tabclose<cr>", { desc = "Close current tab" })
+keymap.set("n", "<leader>tn", "<cmd>:tabnew<cr>", { desc = "Create new tab" })
 keymap.set("n", "<leader>1", ":BufferLineGoToBuffer 1<CR>", { noremap = true, silent = true })
 keymap.set("n", "<leader>2", ":BufferLineGoToBuffer 2<CR>", { noremap = true, silent = true })
 keymap.set("n", "<leader>3", ":BufferLineGoToBuffer 3<CR>", { noremap = true, silent = true })
