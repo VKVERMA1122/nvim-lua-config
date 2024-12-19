@@ -43,3 +43,4 @@ keymap.set("n", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Terminal left window nav
 keymap.set("n", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Terminal down window navigation" })
 keymap.set("n", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Terminal up window navigation" })
 keymap.set("n", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Terminal right window navigation" })
+keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
