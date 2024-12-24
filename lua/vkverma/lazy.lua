@@ -19,4 +19,16 @@ require("lazy").setup({ { import = "vkverma.plugins" }, { import = "vkverma.plug
 	change_detection = {
 		notify = false,
 	},
+	performance = {
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"netrwPlugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
+	},
 })
