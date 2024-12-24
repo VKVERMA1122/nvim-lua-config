@@ -1,6 +1,7 @@
 return {
 	"folke/trouble.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons", "folke/todo-comments.nvim" },
+	dependencies = { "nvim-tree/nvim-web-devicons" },
+	event = "LspAttach", -- or "VeryLazy"
 	opts = {
 		focus = true,
 	},
@@ -14,6 +15,5 @@ return {
 		},
 		{ "<leader>xq", "<cmd>Trouble quickfix toggle<CR>", desc = "Open trouble quickfix list" },
 		{ "<leader>xl", "<cmd>Trouble loclist toggle<CR>", desc = "Open trouble location list" },
-		{ "<leader>xt", "<cmd>Trouble todo toggle<CR>", desc = "Open todos in trouble" },
 	},
 }
