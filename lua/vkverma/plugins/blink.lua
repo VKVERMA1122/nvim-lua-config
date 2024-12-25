@@ -30,14 +30,14 @@ local kind_icons = {
 return {
 	{
 		"saghen/blink.cmp",
-		opts_extend = {
-			"sources.completion.enabled_providers",
-			"sources.compat",
-			"sources.default",
-		},
+		-- opts_extend = {
+		-- 	"sources.completion.enabled_providers",
+		-- 	"sources.compat",
+		-- 	"sources.default",
+		-- },
 		dependencies = {
-			"supermaven-inc/supermaven-nvim",
-			"saghen/blink.compat",
+			-- "supermaven-inc/supermaven-nvim",
+			-- "saghen/blink.compat",
 			"L3MON4D3/LuaSnip",
 			"rafamadriz/friendly-snippets",
 		},
@@ -69,20 +69,20 @@ return {
 					border = "rounded",
 					winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
 				},
-				ghost_text = {
-					enabled = true,
-				},
+				-- ghost_text = {
+				-- 	enabled = true,
+				-- },
 			},
 			signature = { enabled = true },
 			sources = {
-				default = { "luasnip", "lsp", "path", "buffer", "supermaven" },
-				providers = {
-					supermaven = {
-						name = "supermaven",
-						module = "blink.compat.source",
-						async = true,
-					},
-				},
+				default = { "lsp", "luasnip", "snippets", "path", "buffer" },
+				-- providers = {
+				-- 	supermaven = {
+				-- 		name = "supermaven",
+				-- 		module = "blink.compat.source",
+				-- 		async = true,
+				-- 	},
+				-- },
 			},
 		},
 	},
