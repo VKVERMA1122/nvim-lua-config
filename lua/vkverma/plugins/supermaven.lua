@@ -8,6 +8,7 @@ return {
 				accept_suggestion = nil, -- handled by nvim-cmp / blink.cmp
 			},
 			disable_keymaps = false, -- disables built in keymaps for more manual control
+			-- disable_inline_completion = vim.g.ai_cmp,
 			disable_inline_completion = vim.g.ai_cmp,
 		},
 	},
