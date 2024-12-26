@@ -1,6 +1,6 @@
 return {
 	"williamboman/mason.nvim",
-	event = "VeryLazy", -- Optional lazy loading
+	event = { "BufReadPre", "BufNewFile" },
 	config = function()
 		-- import mason
 		local mason = require("mason")

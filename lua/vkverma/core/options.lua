@@ -78,7 +78,7 @@ end
 --neovide
 if vim.g.neovide then
 	-- Put anything you want to happen only in Neovide here
-	vim.o.guifont = "FiraCode NFM:h11"
+	vim.o.guifont = "FiraCode NFM:h10.5"
 	vim.g.neovide_padding_top = 0
 	vim.g.neovide_scale_factor = 1.0
 	vim.g.neovide_padding_bottom = 0
