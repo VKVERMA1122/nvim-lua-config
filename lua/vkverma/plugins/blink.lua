@@ -6,7 +6,7 @@ return {
 			"rafamadriz/friendly-snippets",
 		},
 		event = "InsertEnter",
-		version = "v0.*",
+		version = "*",
 		opts = {
 			keymap = {
 				preset = "default",
@@ -17,18 +17,31 @@ return {
 				},
 			},
 			appearance = {
-				use_nvim_cmp_as_default = true,
+				use_nvim_cmp_as_default = false,
 				nerd_font_variant = "normal",
 			},
 			completion = {
 				list = {
-					selection = "auto_insert",
+					selection = function(ctx)
+						return ctx.mode == "cmdline" and "auto_insert" or "preselect"
+					end,
 				},
+				accept = { auto_brackets = { enabled = true } },
+
 				documentation = {
 					auto_show = true,
-					auto_show_delay_ms = 500,
+					auto_show_delay_ms = 250,
+					treesitter_highlighting = true,
 				},
 				menu = {
+					cmdline_position = function()
+						if vim.g.ui_cmdline_pos ~= nil then
+							local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+							return { pos[1] - 1, pos[2] }
+						end
+						local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+						return { vim.o.lines - height, 0 }
+					end,
 					draw = {
 						columns = { { "label", "label_description", gap = 1 }, { "kind" } },
 						treesitter = { "lsp" },
