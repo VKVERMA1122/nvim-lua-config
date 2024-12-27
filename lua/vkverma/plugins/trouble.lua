@@ -1,7 +1,7 @@
 return {
 	"folke/trouble.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
-	event = "LspAttach", -- or "VeryLazy"
+	event = { "LspAttach", "BufReadPost" },
 	opts = {
 		focus = true,
 	},
