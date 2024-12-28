@@ -2,7 +2,7 @@ return {
 	{
 		"smoka7/hop.nvim",
 		version = "*",
-		event = "VeryLazy",
+		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			keys = "etovxqpdygfblzhckisuran",
 		},
