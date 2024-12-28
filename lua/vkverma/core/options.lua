@@ -102,3 +102,19 @@ vim.api.nvim_create_autocmd("TermOpen", {
 		vim.opt.relativenumber = false
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "alpha",
+	callback = function()
+		-- Disable bufferline for Alpha buffer
+		vim.opt.showtabline = 0
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufUnload", {
+	pattern = "<buffer>",
+	callback = function()
+		-- Restore tabline when leaving Alpha
+		vim.opt.showtabline = 2
+	end,
+})
