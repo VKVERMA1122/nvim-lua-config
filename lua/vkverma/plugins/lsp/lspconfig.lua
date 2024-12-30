@@ -10,7 +10,6 @@ return {
 				"Saghen/blink.cmp",
 				checkout = "fuzzy.prebuilt_binaries.force_version", -- Use a specific release tag with pre-built binaries
 			},
-			{ "j-hui/fidget.nvim", opts = {} },
 		},
 		opts = {
 			-- Optional: You can define default server configurations here

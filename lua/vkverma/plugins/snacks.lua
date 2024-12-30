@@ -104,7 +104,6 @@ return {
 					enabled = false,
 				},
 			},
-			input = { enabled = true },
 			scroll = { enabled = true },
 			statuscolumn = {
 				enabled = true,
