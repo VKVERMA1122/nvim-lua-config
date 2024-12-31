@@ -5,11 +5,21 @@ return {
 		local lint = require("lint")
 
 		lint.linters_by_ft = {
-			javascript = { "biomejs" },
-			typescript = { "biomejs" },
-			javascriptreact = { "biomejs" },
-			typescriptreact = { "biomejs" },
+			javascript = { "biomejs", "eslint" }, -- Consider adding eslint
+			typescript = { "biomejs", "eslint" },
+			javascriptreact = { "biomejs", "eslint" },
+			typescriptreact = { "biomejs", "eslint" },
 			["*"] = { "cspell" },
+		}
+
+		-- Optional: Custom linter configurations
+		lint.linters.eslint.args = {
+			"--format",
+			"--stdin",
+			"--stdin-filename",
+			function()
+				return vim.api.nvim_buf_get_name(0)
+			end,
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

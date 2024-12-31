@@ -5,24 +5,20 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"rafamadriz/friendly-snippets", -- Optional, for snippet support with blink.cmp
+			"rafamadriz/friendly-snippets",
 			{
 				"Saghen/blink.cmp",
-				checkout = "fuzzy.prebuilt_binaries.force_version", -- Use a specific release tag with pre-built binaries
+				checkout = "fuzzy.prebuilt_binaries.force_version",
 			},
 		},
 		opts = {
-			-- Optional: You can define default server configurations here
 			servers = {
-				-- Example:
-				-- rust_analyzer = {
-				--   settings = {
-				--     ["rust-analyzer"] = { checkOnSave = { command = "clippy" } }
-				--   }
-				-- },
+				tsserver = {},
+				eslint = {},
+				biome = {},
 			},
 		},
-		config = function(_, opts) -- Access opts from lazy.nvim
+		config = function(_, opts)
 			local lspconfig = require("lspconfig")
 			local mason_lspconfig = require("mason-lspconfig")
 
@@ -67,26 +63,33 @@ return {
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 			-- Diagnostic sign definitions
-			local signs = { Error = "󰅙 ", Warn = " ", Hint = "󰠠 ", Info = "󰋼 " }
+			local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
 			for type, icon in pairs(signs) do
 				local hl = "DiagnosticSign" .. type
 				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 			end
 
 			-- mason-lspconfig setup
+			mason_lspconfig.setup({
+				ensure_installed = {
+					"tsserver",
+					"eslint",
+					"biome",
+				},
+			})
+
 			mason_lspconfig.setup_handlers({
 				-- Default handler for all servers
 				function(server_name)
 					local server_config = {
-						capabilities = capabilities, -- Use enhanced capabilities globally
+						capabilities = capabilities,
 					}
 
-					-- Special settings for individual servers (example: lua_ls)
+					-- Special settings for individual servers
 					if server_name == "lua_ls" then
 						server_config.settings = {
 							Lua = {
 								diagnostics = { globals = { "vim" } },
-								-- completion = { callSnippet = "Replace" }, -- Probably not needed without completion engine
 							},
 						}
 					end
@@ -94,8 +97,7 @@ return {
 					-- Override with per-server configs from opts.servers if they exist
 					if opts.servers and opts.servers[server_name] then
 						server_config = vim.tbl_deep_extend("force", server_config, opts.servers[server_name])
-						-- If a server has its own capabilities defined in opts.servers,
-						-- enhance those individually with blink.cmp
+
 						if opts.servers[server_name].capabilities then
 							server_config.capabilities =
 								require("blink.cmp").get_lsp_capabilities(opts.servers[server_name].capabilities)
