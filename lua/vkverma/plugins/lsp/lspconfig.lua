@@ -13,9 +13,10 @@ return {
 		},
 		opts = {
 			servers = {
-				tsserver = {},
-				eslint = {},
+				ts_ls = {},
 				biome = {},
+				lua_ls = {},
+				prismals = {},
 			},
 		},
 		config = function(_, opts)
@@ -72,8 +73,10 @@ return {
 			-- mason-lspconfig setup
 			mason_lspconfig.setup({
 				ensure_installed = {
-					"tsserver",
 					"biome",
+					"ts_ls",
+					"lua_ls",
+					"prismals",
 				},
 			})
 
