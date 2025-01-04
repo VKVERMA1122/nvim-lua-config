@@ -33,10 +33,6 @@ keymap.set("n", "<Tab>", "gt", { desc = "Switch to next tab" })
 keymap.set("n", "<S-Tab>", "gT", { desc = "Switch to previous tab" })
 keymap.set("n", "tc", "<cmd>:tabclose<cr>", { desc = "Close current tab" })
 keymap.set("n", "<leader>tn", "<cmd>:tabnew<cr>", { desc = "Create new tab" })
-keymap.set("n", "<leader>1", ":BufferLineGoToBuffer 1<CR>", { noremap = true, silent = true })
-keymap.set("n", "<leader>2", ":BufferLineGoToBuffer 2<CR>", { noremap = true, silent = true })
-keymap.set("n", "<leader>3", ":BufferLineGoToBuffer 3<CR>", { noremap = true, silent = true })
-keymap.set("n", "<leader>4", ":BufferLineGoToBuffer 4<CR>", { noremap = true, silent = true })
 
 --terminal navigation
 keymap.set("n", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Terminal left window navigation" })
@@ -44,5 +40,3 @@ keymap.set("n", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Terminal down window nav
 keymap.set("n", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Terminal up window navigation" })
 keymap.set("n", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Terminal right window navigation" })
 keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
-
--- keymap.set("n", "<leader>e", ":lua MiniFiles.open()<cr> ", { desc = "Open filexplorer" })

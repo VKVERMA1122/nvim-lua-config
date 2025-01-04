@@ -1,6 +1,6 @@
 return {
-    'echasnovski/mini.jump',
-    version = '*',
-    event = { "BufReadPre", "BufNewFile" },
-    opts = {}
+	"echasnovski/mini.jump",
+	version = "*",
+	event = { "BufReadPre", "BufNewFile" },
+	opts = {},
 }

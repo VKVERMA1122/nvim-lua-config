@@ -1,6 +1,6 @@
 return {
-    'echasnovski/mini.pairs',
-    version = '*',
-    event = { "InsertEnter" },
-    opts = {}
+	"echasnovski/mini.pairs",
+	version = "*",
+	event = { "InsertEnter" },
+	opts = {},
 }

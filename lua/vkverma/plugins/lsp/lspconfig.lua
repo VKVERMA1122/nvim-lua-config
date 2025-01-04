@@ -39,8 +39,8 @@ return {
 					keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", bufopts)
 					bufopts.desc = "Show LSP implementations"
 					keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", bufopts)
-					bufopts.desc = "Show LSP type definitions"
-					keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", bufopts)
+					-- bufopts.desc = "Show LSP type definitions"
+					-- keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", bufopts)
 					bufopts.desc = "See available code actions"
 					keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, bufopts)
 					bufopts.desc = "Smart rename"
