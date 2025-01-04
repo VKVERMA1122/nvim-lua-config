@@ -45,4 +45,4 @@ keymap.set("n", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Terminal up window navig
 keymap.set("n", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Terminal right window navigation" })
 keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
 
-keymap.set("n", "<leader>e", ":lua MiniFiles.open()<cr> ", { desc = "Open filexplorer" })
+-- keymap.set("n", "<leader>e", ":lua MiniFiles.open()<cr> ", { desc = "Open filexplorer" })
