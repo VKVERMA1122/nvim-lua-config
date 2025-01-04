@@ -26,6 +26,38 @@ return {
 				return "%2l:%-2v"
 			end
 
+			require("mini.files").setup()
+			require("mini.jump").setup()
+			require("mini.jump2d").setup({
+				-- Options for visual effects
+				view = {
+					-- Whether to dim lines with at least one jump spot
+					dim = true,
+
+					-- How many steps ahead to show. Set to big number to show all steps.
+					n_steps_ahead = 0,
+				},
+				-- Which lines are used for computing spots
+				allowed_lines = {
+					blank = false, -- Blank line (not sent to spotter even if `true`)
+					cursor_before = true, -- Lines before cursor line
+					cursor_at = false, -- Cursor line
+					cursor_after = true, -- Lines after cursor line
+					fold = true, -- Start of fold (not sent to spotter even if `true`)
+				},
+
+				-- Which windows from current tabpage are used for visible lines
+				allowed_windows = {
+					current = true,
+					not_current = false,
+				},
+				mappings = {
+					start_jumping = "<c-s>",
+				},
+			})
+			require("mini.tabline").setup({
+				tabpage_section = "none",
+			})
 			-- ... and there is more!
 			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
