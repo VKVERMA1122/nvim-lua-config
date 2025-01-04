@@ -103,39 +103,23 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "alpha",
-	callback = function()
-		-- Disable bufferline for Alpha buffer
-		vim.opt.showtabline = 0
-	end,
-})
-
-vim.api.nvim_create_autocmd("BufUnload", {
-	pattern = "<buffer>",
-	callback = function()
-		-- Restore tabline when leaving Alpha
-		vim.opt.showtabline = 2
-	end,
-})
-
-vim.api.nvim_create_autocmd("User", {
-	pattern = "MiniFilesWindowOpen",
-	callback = function(args)
-		local win_id = args.data.win_id
-		vim.api.nvim_win_set_config(win_id, { border = "rounded" })
-	end,
-})
-
-local go_out_with_count = function()
-	for _ = 1, vim.v.count1 do
-		MiniFiles.go_out()
-	end
-end
-
-vim.api.nvim_create_autocmd("User", {
-	pattern = "MiniFilesBufferCreate",
-	callback = function(args)
-		vim.keymap.set("n", "h", go_out_with_count, { buffer = args.data.buf_id })
-	end,
-})
+-- vim.api.nvim_create_autocmd("User", {
+-- 	pattern = "MiniFilesWindowOpen",
+-- 	callback = function(args)
+-- 		local win_id = args.data.win_id
+-- 		vim.api.nvim_win_set_config(win_id, { border = "rounded" })
+-- 	end,
+-- })
+--
+-- local go_out_with_count = function()
+-- 	for _ = 1, vim.v.count1 do
+-- 		MiniFiles.go_out()
+-- 	end
+-- end
+--
+-- vim.api.nvim_create_autocmd("User", {
+-- 	pattern = "MiniFilesBufferCreate",
+-- 	callback = function(args)
+-- 		vim.keymap.set("n", "h", go_out_with_count, { buffer = args.data.buf_id })
+-- 	end,
+-- })

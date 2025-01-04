@@ -1,65 +1,73 @@
 return {
-	{ -- Collection of various small independent plugins/modules
+	{
 		"echasnovski/mini.nvim",
 		version = false,
 		event = "VeryLazy",
 		config = function()
-			-- Add/delete/replace surroundings (brackets, quotes, etc.)
-			--
-			-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-			-- - sd'   - [S]urround [D]elete [']quotes
-			-- - sr)'  - [S]urround [R]eplace [)] [']
-			require("mini.surround").setup()
-
-			-- Simple and easy statusline.
-			--  You could remove this setup call if you don't like it,
-			--  and try some other statusline plugin
+			-- Statusline Configuration
 			local statusline = require("mini.statusline")
-			-- set use_icons to true if you have a Nerd Font
-			statusline.setup({ use_icons = vim.g.have_nerd_font })
+			statusline.setup({
+				use_icons = true, -- Enable Nerd Font icons
+				set_vim_settings = true, -- Automatically set Vim settings
+			})
 
-			-- You can configure sections in the statusline by overriding their
-			-- default behavior. For example, here we set the section for
-			-- cursor location to LINE:COLUMN
-			---@diagnostic disable-next-line: duplicate-set-field
+			-- Custom Location Section
 			statusline.section_location = function()
-				return "%2l:%-2v"
+				return "%2l:%-2v" -- Line:Column format
 			end
 
-			require("mini.files").setup()
-			require("mini.jump").setup()
-			require("mini.jump2d").setup({
-				-- Options for visual effects
-				view = {
-					-- Whether to dim lines with at least one jump spot
-					dim = true,
-
-					-- How many steps ahead to show. Set to big number to show all steps.
-					n_steps_ahead = 0,
+			-- Files Explorer Configuration
+			require("mini.files").setup({
+				windows = {
+					preview = false, -- Enable file preview
+					width_focus = 30, -- Width of focused window
+					width_nofocus = 20, -- Width of non-focused windows
 				},
-				-- Which lines are used for computing spots
-				allowed_lines = {
-					blank = false, -- Blank line (not sent to spotter even if `true`)
-					cursor_before = true, -- Lines before cursor line
-					cursor_at = false, -- Cursor line
-					cursor_after = true, -- Lines after cursor line
-					fold = true, -- Start of fold (not sent to spotter even if `true`)
-				},
-
-				-- Which windows from current tabpage are used for visible lines
-				allowed_windows = {
-					current = true,
-					not_current = false,
-				},
-				mappings = {
-					start_jumping = "<c-s>",
+				options = {
+					permanent_delete = false, -- Safer file deletion
+					use_as_default_explorer = true, -- Replace netrw
 				},
 			})
+
+			-- Enhanced Jump Configuration
+			require("mini.jump2d").setup({
+				init = function()
+					vim.api.nvim_create_autocmd("User", {
+						pattern = "MiniFilesWindowOpen",
+						callback = function(args)
+							local win_id = args.data.win_id
+							vim.api.nvim_win_set_config(win_id, { border = "thick" })
+						end,
+					})
+				end,
+				view = {
+					dim = true,
+					-- n_steps_ahead = 2, -- Show more jump steps
+				},
+				mappings = {
+					start_jumping = "<C-s>",
+					jump_first = "<C-f>",
+					jump_prev = "<C-b>",
+				},
+				allowed_lines = {
+					blank = false,
+					cursor_before = true,
+					cursor_after = true,
+				},
+			})
+
+			-- Tabline Configuration
 			require("mini.tabline").setup({
 				tabpage_section = "none",
 			})
-			-- ... and there is more!
-			--  Check out: https://github.com/echasnovski/mini.nvim
+			-- Additional Mini Modules
+			require("mini.comment").setup() -- Easy commenting
+			require("mini.pairs").setup() -- Auto-pair brackets
+			require("mini.indentscope").setup({ -- Indent visualization
+				draw = {
+					animation = require("mini.indentscope").gen_animation.none(),
+				},
+			})
 		end,
 	},
 }
