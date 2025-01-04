@@ -102,24 +102,3 @@ vim.api.nvim_create_autocmd("TermOpen", {
 		vim.opt.relativenumber = false
 	end,
 })
-
--- vim.api.nvim_create_autocmd("User", {
--- 	pattern = "MiniFilesWindowOpen",
--- 	callback = function(args)
--- 		local win_id = args.data.win_id
--- 		vim.api.nvim_win_set_config(win_id, { border = "rounded" })
--- 	end,
--- })
---
--- local go_out_with_count = function()
--- 	for _ = 1, vim.v.count1 do
--- 		MiniFiles.go_out()
--- 	end
--- end
---
--- vim.api.nvim_create_autocmd("User", {
--- 	pattern = "MiniFilesBufferCreate",
--- 	callback = function(args)
--- 		vim.keymap.set("n", "h", go_out_with_count, { buffer = args.data.buf_id })
--- 	end,
--- })

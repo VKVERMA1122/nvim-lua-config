@@ -11,26 +11,29 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { import = "vkverma.plugins" }, { import = "vkverma.plugins.lsp" }, {
-	import = "vkverma.plugins.mini-nvim" ,
-} }, {
-	checker = {
-		enabled = true,
-		notify = false,
-	},
-	change_detection = {
-		notify = false,
-	},
-	performance = {
-		rtp = {
-			disabled_plugins = {
-				"gzip",
-				"netrwPlugin",
-				"tarPlugin",
-				"tohtml",
-				"tutor",
-				"zipPlugin",
+require("lazy").setup(
+	{ { import = "vkverma.plugins" }, { import = "vkverma.plugins.lsp" }, {
+		import = "vkverma.plugins.mini-nvim",
+	} },
+	{
+		checker = {
+			enabled = true,
+			notify = false,
+		},
+		change_detection = {
+			notify = false,
+		},
+		performance = {
+			rtp = {
+				disabled_plugins = {
+					"gzip",
+					"netrwPlugin",
+					"tarPlugin",
+					"tohtml",
+					"tutor",
+					"zipPlugin",
+				},
 			},
 		},
-	},
-})
+	}
+)
