@@ -9,10 +9,17 @@ return {
 			typescript = { "biomejs" },
 			javascriptreact = { "biomejs" },
 			typescriptreact = { "biomejs" },
-			["*"] = { "cspell" },
+			["*"] = { "codespell" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+		vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+			group = vim.api.nvim_create_augroup("lint", { clear = true }),
+			callback = function()
+				lint.try_lint()
+				lint.try_lint("codespell")
+			end,
+		})
 
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 			group = lint_augroup,
