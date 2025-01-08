@@ -21,11 +21,7 @@ return {
 				nerd_font_variant = "normal",
 			},
 			completion = {
-				list = {
-					selection = function(ctx)
-						return ctx.mode == "cmdline" and "auto_insert" or "preselect"
-					end,
-				},
+				list = { selection = { preselect = true, auto_insert = true } },
 				accept = { auto_brackets = { enabled = true } },
 
 				documentation = {
@@ -50,8 +46,9 @@ return {
 				},
 			},
 			signature = { enabled = true },
+			snippets = { preset = "luasnip" },
 			sources = {
-				default = { "lsp", "luasnip", "snippets", "path", "buffer" },
+				default = { "lsp", "snippets", "path", "buffer" },
 			},
 		},
 	},
