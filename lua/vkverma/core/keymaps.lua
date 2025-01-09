@@ -26,9 +26,9 @@ keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Resize spli
 keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Resize split right" })
 
 -- buffer navigation
-keymap.set("n", "<Tab>", "<cmd>:bnext<cr>", { desc = "Go to next buffer" })
-keymap.set("n", "<S-Tab>", "<cmd>:bprevious<cr>", { desc = "Go to previous buffer" })
-keymap.set("n", "<leader>bd", "<cmd>:bdelete<cr>", { desc = "Delete current buffer" })
+-- keymap.set("n", "<Tab>", "<cmd>:bnext<cr>", { desc = "Go to next buffer" })
+-- keymap.set("n", "<S-Tab>", "<cmd>:bprevious<cr>", { desc = "Go to previous buffer" })
+-- keymap.set("n", "<leader>bd", "<cmd>:bdelete<cr>", { desc = "Delete current buffer" })
 
 -- terminal
 keymap.set("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
