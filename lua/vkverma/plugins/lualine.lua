@@ -22,12 +22,49 @@ return {
 			},
 			sections = {
 				lualine_a = { "mode" },
-				lualine_b = { "branch", "diff", "diagnostics" },
-				lualine_c = { "filename" },
-				lualine_x = { "filetype" },
-				lualine_y = { "progress" },
-				lualine_z = { "location" },
+				lualine_b = { "branch" },
+				lualine_c = {
+					"filename",
+					{
+						"diagnostics",
+						symbols = {
+							error = " ",
+							warn = " ",
+							info = " ",
+							hint = " ",
+						},
+					},
+				},
+				lualine_x = {
+					"filetype",
+					{
+						"diff",
+						symbols = {
+							added = " ",
+							modified = " ",
+							removed = " ",
+						},
+						source = function()
+							local gitsigns = vim.b.gitsigns_status_dict or {}
+							return {
+								added = gitsigns.added or 0,
+								modified = gitsigns.changed or 0,
+								removed = gitsigns.removed or 0,
+							}
+						end,
+					},
+				},
+				lualine_y = {
+					{ "progress", separator = " ",                  padding = { left = 1, right = 0 } },
+					{ "location", padding = { left = 0, right = 1 } },
+				},
+				lualine_z = {
+					function()
+						return " " .. os.date("%R")
+					end,
+				},
 			},
+			extensions = { "neo-tree", "lazy", "fzf" },
 			inactive_sections = {
 				lualine_a = {},
 				lualine_b = {},
