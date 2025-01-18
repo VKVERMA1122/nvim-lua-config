@@ -10,6 +10,12 @@ return {
 				"Saghen/blink.cmp",
 				checkout = "fuzzy.prebuilt_binaries.force_version",
 			},
+			{
+				"j-hui/fidget.nvim",
+				config = function()
+					require("fidget").setup()
+				end,
+			},
 		},
 		opts = {
 			servers = {
@@ -31,23 +37,10 @@ return {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
 					local bufopts = { buffer = ev.buf, silent = true }
-
-					bufopts.desc = "Show LSP references"
-					keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", bufopts)
-					bufopts.desc = "Go to declaration"
-					keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-					bufopts.desc = "Show LSP definitions"
-					keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", bufopts)
-					bufopts.desc = "Show LSP implementations"
-					keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", bufopts)
-					-- bufopts.desc = "Show LSP type definitions"
-					-- keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", bufopts)
 					bufopts.desc = "See available code actions"
 					keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, bufopts)
 					bufopts.desc = "Smart rename"
 					keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-					bufopts.desc = "Show buffer diagnostics"
-					keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", bufopts)
 					bufopts.desc = "Show line diagnostics"
 					keymap.set("n", "<leader>d", vim.diagnostic.open_float, bufopts)
 					bufopts.desc = "Go to previous diagnostic"
