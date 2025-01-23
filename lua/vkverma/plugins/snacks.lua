@@ -178,9 +178,9 @@ return {
 			dashboard = {
 				enabled = true,
 				width = 60,
-				row = nil,                                                       -- dashboard position. nil for center
-				col = nil,                                                       -- dashboard position. nil for center
-				pane_gap = 4,                                                    -- empty columns between vertical panes
+				row = nil, -- dashboard position. nil for center
+				col = nil, -- dashboard position. nil for center
+				pane_gap = 4, -- empty columns between vertical panes
 				autokeys = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -- autokey sequence
 				-- These settings are used by some built-in sections
 				preset = {
@@ -264,7 +264,7 @@ return {
 				},
 				sections = {
 					{ section = "header" },
-					{ section = "keys",   gap = 1, padding = 1 },
+					{ section = "keys", gap = 1, padding = 1 },
 					{ section = "startup" },
 				},
 			},
