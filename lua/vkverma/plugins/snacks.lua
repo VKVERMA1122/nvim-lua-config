@@ -280,7 +280,6 @@ return {
 				enabled = true,
 			},
 			words = { enabled = true },
-			-- util
 		},
 	},
 }

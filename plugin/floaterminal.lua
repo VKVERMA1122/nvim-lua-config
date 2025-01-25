@@ -54,5 +54,4 @@ end
 vim.api.nvim_create_user_command("Floaterminal", toggle_terminal, {})
 
 -- Keymap to toggle the floating terminal
--- vim.keymap.set({ "n", "t" }, "<leader>f", ":Floaterminal<CR>", { silent = true })
 vim.keymap.set({ "n", "t" }, "<c-\\>", ":Floaterminal<CR>", { silent = true })
