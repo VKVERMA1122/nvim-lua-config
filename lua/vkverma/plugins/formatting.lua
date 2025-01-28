@@ -19,13 +19,13 @@ return {
 			},
 		})
 
-		-- vim.keymap.set({ "n", "v" }, "<leader>cf", function()
-		-- 	conform.format({
-		-- 		lsp_fallback = true,
-		-- 		async = false,
-		-- 		timeout_ms = 1000,
-		-- 	})
-		-- end, { desc = "Format file or range (in visual mode)" })
+		vim.keymap.set({ "n", "v" }, "<leader>cf", function()
+			conform.format({
+				lsp_fallback = true,
+				async = false,
+				timeout_ms = 1000,
+			})
+		end, { desc = "Format file or range (in visual mode)" })
 
 		vim.api.nvim_create_user_command("Format", function()
 			require("conform").format({
