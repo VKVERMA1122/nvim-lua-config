@@ -6,6 +6,14 @@ return {
 			"sindrets/diffview.nvim", -- optional - Diff integration
 		},
 		cmd = { "Neogit" },
-		config = true,
+		config = function()
+			require("neogit").setup({
+				integrations = {
+					diffview = true,
+					fzf_lua = true,
+					telescope = nil,
+				},
+			})
+		end,
 	},
 }
