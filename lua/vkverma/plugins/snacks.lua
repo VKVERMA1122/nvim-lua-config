@@ -174,7 +174,23 @@ return {
 			},
 		},
 		opts = {
-			picker = {},
+			picker = {
+				enabled = true,
+				-- Enable dropdown theme
+				dropdown = true,
+				-- Customize FZF-lua settings
+				fzf = {
+					border = "rounded", -- Add a rounded border
+					multi = false, -- Enable multi-select (optional)
+					height = "80%", -- Set height as a percentage of the screen
+					theme = "dashboard", -- Use a theme that matches your UI
+					action = "echo", -- Set the default action
+				},
+			},
+			colorscheme = {
+				enabled = true,
+				dropdown = true,
+			},
 			dashboard = {
 				enabled = true,
 				width = 60,
