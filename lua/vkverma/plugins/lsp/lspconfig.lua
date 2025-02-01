@@ -23,7 +23,6 @@ return {
 				biome = {},
 				lua_ls = {},
 				prismals = {},
-				codespell = {},
 			},
 		},
 		config = function(_, opts)
@@ -71,7 +70,6 @@ return {
 					"ts_ls",
 					"lua_ls",
 					"prismals",
-					"codespell",
 				},
 			})
 

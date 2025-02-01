@@ -47,6 +47,7 @@ return {
 			signature = { enabled = true },
 			snippets = { preset = "luasnip" },
 			sources = {
+				cmdline = {},
 				default = { "lsp", "snippets", "path", "buffer" },
 			},
 		},
