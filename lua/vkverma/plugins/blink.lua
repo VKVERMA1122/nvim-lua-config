@@ -11,9 +11,12 @@ return {
 			keymap = {
 				preset = "default",
 				["<return>"] = { "select_and_accept", "fallback" },
+				-- cmdline = {
+				-- 	preset = "enter",
+				-- 	["<CR>"] = {},
+				-- },
 				cmdline = {
-					preset = "enter",
-					["<CR>"] = {},
+					preset = "none", -- Disable all keymaps in command line mode
 				},
 			},
 			appearance = {
