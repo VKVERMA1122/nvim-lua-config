@@ -124,7 +124,7 @@ return {
 			{
 				"<leader>ft",
 				function()
-					Snacks.picker.colorschemes()
+					Snacks.picker.colorschemes({ layout = "vertical" })
 				end,
 				desc = "Colorschemes",
 			},
@@ -177,23 +177,15 @@ return {
 			picker = {
 				enabled = true,
 				layout = {
-					cycle = true,
-					---@comment Use the default layout or dropdown if the window is too narrow
-					--- @default "default"
-					--- @options ["default", "dropdown", "ivy", "select", "telescope", "vertical", "vscode"]
-					preset = function()
-						return vim.o.columns >= 120 and "default" or "dropdown"
-					end,
+					-- presets options : "default" , "ivy" , "ivy-split" , "telescope" , "vscode", "select" , "sidebar"
+					cycle = false,
 				},
-			},
-			explorer = {
-				replace_netrw = true,
 			},
 			notifier = {
 				enabled = true,
 				--- @default "compact"
 				--- @options [ "compact", "fancy", "minimal" ]
-				style = "compact",
+				style = "fancy",
 				top_down = false,
 
 				-- lsp_utils = require("lsp.autocommands").setup_lsp_progress(),
