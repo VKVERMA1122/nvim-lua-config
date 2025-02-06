@@ -10,7 +10,7 @@ return {
 				operators = false,
 				folds = false,
 			},
-			transparent_mode = true,
+			transparent_mode = false,
 		})
 		vim.cmd("colorscheme darkbox")
 	end,
