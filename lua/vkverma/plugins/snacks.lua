@@ -3,6 +3,10 @@ return {
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
+		cond = function()
+			-- Optional: Add a condition for loading
+			return not vim.g.started_by_firenvim
+		end,
 		keys = {
 			{
 				"<leader><leader>",
@@ -17,13 +21,6 @@ return {
 					Snacks.picker.grep()
 				end,
 				desc = "Grep",
-			},
-			{
-				"<leader>ff",
-				function()
-					Snacks.picker.files()
-				end,
-				desc = "Find Files",
 			},
 			-- find
 			{
