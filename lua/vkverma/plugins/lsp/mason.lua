@@ -1,12 +1,8 @@
 return {
 	"williamboman/mason.nvim",
-	-- event = { "BufReadPre", "BufNewFile" },
 	cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate" },
-	dependencies = {
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-	},
+	dependencies = { "WhoIsSethDaniel/mason-tool-installer.nvim" },
 	config = function()
-		-- import mason
 		local mason = require("mason")
 		mason.setup({
 			ui = {
@@ -17,10 +13,9 @@ return {
 				},
 			},
 		})
+
 		require("mason-tool-installer").setup({
-			ensure_installed = {
-				"codespell",
-			},
+			ensure_installed = { "cspell" },
 		})
 	end,
 }

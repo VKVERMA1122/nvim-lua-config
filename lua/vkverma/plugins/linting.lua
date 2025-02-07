@@ -33,22 +33,14 @@ return {
 			typescriptreact = { "biomejs" },
 			markdown = { "cspell" },
 			text = { "cspell" },
-			["*"] = { "cspell" }, -- Optional: Apply to all filetypes
+			["*"] = { "cspell" }, -- Apply to all filetypes
 		}
 
-		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-
-		vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "InsertLeave" }, {
-			group = lint_augroup,
+		-- Automatic linting
+		vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave", "BufReadPost" }, {
 			callback = function()
-				pcall(function()
-					lint.try_lint()
-				end)
+				pcall(lint.try_lint)
 			end,
 		})
-
-		vim.keymap.set("n", "<leader>l", function()
-			pcall(lint.try_lint)
-		end, { desc = "Trigger linting for current file" })
 	end,
 }
