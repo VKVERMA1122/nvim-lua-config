@@ -285,11 +285,7 @@ return {
 					enabled = false,
 				},
 			},
-			statuscolumn = {
-				enabled = true,
-			},
 			scroll = { enabled = true },
-			words = { enabled = true },
 		},
 	},
 }

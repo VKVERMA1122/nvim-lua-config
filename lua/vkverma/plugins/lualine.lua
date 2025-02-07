@@ -3,46 +3,41 @@ return {
 	event = "VeryLazy",
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
-		"nvim-lua/lsp-status.nvim", -- Optional: for more detailed LSP status
 	},
 	config = function()
 		local lualine = require("lualine")
 
-		-- Helper function to get LSP client names
+		-- LSP Clients (only show if clients are active)
 		local function lsp_clients()
 			local clients = vim.lsp.get_active_clients({ bufnr = 0 })
-			if next(clients) == nil then
-				return "No LSP"
-			end
-			return table.concat(
-				vim.tbl_map(function(client)
-					return client.name
-				end, clients),
-				", "
-			)
+			return #clients > 0
+					and table.concat(
+						vim.tbl_map(function(client)
+							return client.name
+						end, clients),
+						", "
+					)
+				or nil
 		end
 
-		-- Formatter status
+		-- Formatter status (only show if formatters exist)
 		local function formatter_status()
-			local formatters = require("conform").list_formatters(0)
-			if #formatters == 0 then
-				return "No Formatter"
-			end
-			return table.concat(
-				vim.tbl_map(function(f)
-					return f.name
-				end, formatters),
-				", "
-			)
+			local ok, formatters = pcall(require("conform").list_formatters, 0)
+			return ok
+					and #formatters > 0
+					and table.concat(
+						vim.tbl_map(function(f)
+							return f.name
+						end, formatters),
+						", "
+					)
+				or nil
 		end
 
-		-- Linter status
+		-- Linter status (only show if linters are running)
 		local function linter_status()
-			local linters = require("lint").get_running()
-			if #linters == 0 then
-				return "No Linter"
-			end
-			return table.concat(linters, ", ")
+			local ok, linters = pcall(require("lint").get_running)
+			return ok and #linters > 0 and table.concat(linters, ", ") or nil
 		end
 
 		lualine.setup({
@@ -81,7 +76,6 @@ return {
 							hint = " ",
 						},
 					},
-
 					{ "filetype" },
 				},
 				lualine_x = {
@@ -89,16 +83,26 @@ return {
 						lsp_clients,
 						icon = "LSP:",
 						color = { fg = "#98be65" },
+						-- Only show if LSP clients are active
+						cond = function()
+							return lsp_clients() ~= nil
+						end,
 					},
 					{
 						formatter_status,
 						icon = "󰉢:",
 						color = { fg = "#ff6c6b" },
+						cond = function()
+							return formatter_status() ~= nil
+						end,
 					},
 					{
 						linter_status,
 						icon = "🔍:",
 						color = { fg = "#51afef" },
+						cond = function()
+							return linter_status() ~= nil
+						end,
 					},
 					{
 						"diff",
