@@ -24,13 +24,6 @@ return {
 			},
 			-- find
 			{
-				"<leader>fb",
-				function()
-					Snacks.picker.buffers()
-				end,
-				desc = "Buffers",
-			},
-			{
 				"<leader>ff",
 				function()
 					Snacks.picker.files()
@@ -149,7 +142,13 @@ return {
 				desc = "LSP Symbols",
 			},
 			-- Other
-			{ "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
+			{
+				"<leader>gg",
+				function()
+					Snacks.lazygit()
+				end,
+				desc = "Lazygit",
+			},
 		},
 		opts = {
 			picker = {
@@ -158,20 +157,23 @@ return {
 					-- presets options : "default" , "ivy" , "ivy-split" , "telescope" , "vscode", "select" , "sidebar"
 					cycle = false,
 				},
+				files = {
+					find_args = {
+						exclude = { ".git", "node_modules", "__pycache__" }, -- Add your patterns
+					},
+				},
 			},
 			notifier = {
 				enabled = true,
-				--- @default "compact"
-				--- @options [ "compact", "fancy", "minimal" ]
-				style = "fancy",
-				top_down = false,
+				style = "compact", -- "compact" uses less space
+				top_down = true, -- Notifications appear from top to bottom
 			},
 			dashboard = {
 				enabled = true,
 				width = 60,
-				row = nil,                                                       -- dashboard position. nil for center
-				col = nil,                                                       -- dashboard position. nil for center
-				pane_gap = 4,                                                    -- empty columns between vertical panes
+				row = nil, -- dashboard position. nil for center
+				col = nil, -- dashboard position. nil for center
+				pane_gap = 4, -- empty columns between vertical panes
 				autokeys = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", -- autokey sequence
 				-- These settings are used by some built-in sections
 				preset = {
@@ -186,9 +188,9 @@ return {
 							icon = " ",
 							key = "f",
 							desc = "Find File",
-							action = ":lua Snacks.dashboard.pick('files')",
+							action = ":lua Snacks.picker.files()",
 						},
-						{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+						-- { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
 						{
 							icon = " ",
 							key = "g",
@@ -255,8 +257,9 @@ return {
 				},
 				sections = {
 					{ section = "header" },
-					{ section = "keys",   gap = 1, padding = 1 },
+					{ section = "keys", gap = 1, padding = 1 },
 					{ section = "startup" },
+					{ section = "session" }, -- Add this if you have session functionality
 				},
 			},
 			indent = {
@@ -267,7 +270,9 @@ return {
 				},
 			},
 			scroll = { enabled = true },
-			lazygit = { enabled = true },
+			lazygit = { lazygit = {
+				enabled = vim.fn.executable("lazygit") == 1,
+			} },
 		},
 	},
 }
