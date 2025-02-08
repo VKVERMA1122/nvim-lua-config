@@ -3,10 +3,17 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    cond = function()
-      -- Optional: Add a condition for loading
-      return not vim.g.started_by_firenvim
-    end,
+    opts = {
+      picker = {
+        sources = {
+          explorer = {
+            layout = {
+              position = "right",
+            },
+          },
+        },
+      },
+    },
     keys = {
       {
         "<leader><leader>",
