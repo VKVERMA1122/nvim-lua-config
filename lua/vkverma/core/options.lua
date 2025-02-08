@@ -21,7 +21,10 @@ opt.cursorline = true
 opt.termguicolors = true
 opt.termguicolors = true
 opt.cmdheight = 0 -- make command line smaller
-opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+-- opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+vim.opt.numberwidth = 3
+vim.opt.signcolumn = "yes:1"
+vim.opt.statuscolumn = "%l%s"
 
 vim.o.guifont = "FiraCode NFM:h11"
 
