@@ -20,38 +20,33 @@ return {
 				},
 			},
 			appearance = {
-				use_nvim_cmp_as_default = true,
-				nerd_font_variant = "normal",
+				use_nvim_cmp_as_default = false,
+				nerd_font_variant = "mono",
 			},
 			completion = {
-				list = { selection = { preselect = true, auto_insert = true } },
-				accept = { auto_brackets = { enabled = true } },
-				documentation = {
-					auto_show = true,
-					auto_show_delay_ms = 250,
-					treesitter_highlighting = true,
+				accept = {
+					auto_brackets = {
+						enabled = true,
+					},
 				},
 				menu = {
-					cmdline_position = function()
-						if vim.g.ui_cmdline_pos ~= nil then
-							local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
-							return { pos[1] - 1, pos[2] }
-						end
-						local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
-						return { vim.o.lines - height, 0 }
-					end,
 					draw = {
-						columns = { { "label", "label_description", gap = 1 }, { "kind" } },
 						treesitter = { "lsp" },
 					},
-					winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+				},
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 200,
+				},
+				ghost_text = {
+					enabled = vim.g.ai_cmp,
 				},
 			},
 			signature = { enabled = true },
 			snippets = { preset = "luasnip" },
 			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
 				cmdline = {},
-				default = { "lsp", "snippets", "path", "buffer" },
 			},
 		},
 	},
