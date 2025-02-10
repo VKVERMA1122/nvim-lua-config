@@ -11,6 +11,7 @@ return {
 				javascriptreact = { "biome" },
 				typescriptreact = { "biome" },
 				lua = { "stylua" },
+				["*"] = { "cspell" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
