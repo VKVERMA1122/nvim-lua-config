@@ -16,15 +16,11 @@ opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 
 opt.cursorline = true
-
--- turn on termguicolors for tokyonight colorscheme to work
-opt.termguicolors = true
 opt.termguicolors = true
 opt.cmdheight = 0 -- make command line smaller
--- opt.signcolumn = "yes" -- show sign column so that text doesn't shift
-vim.opt.numberwidth = 3
-vim.opt.signcolumn = "yes:1"
-vim.opt.statuscolumn = "%l%s"
+opt.numberwidth = 3 -- Number column width
+opt.signcolumn = "yes" -- Automatic sign column width
+--vim.opt.statuscolumn = "%l%s" -- Status column on the right
 
 vim.o.guifont = "FiraCode NFM:h11"
 

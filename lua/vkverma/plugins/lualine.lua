@@ -34,10 +34,25 @@ return {
 				or nil
 		end
 
-		-- Linter status (only show if linters are running)
-		local function linter_status()
-			local ok, linters = pcall(require("lint").get_running)
-			return ok and #linters > 0 and table.concat(linters, ", ") or nil
+		-- Diagnostics status using LSP
+		local function diagnostics_status()
+			local diagnostics = vim.diagnostic.get(0)
+			local error_count = 0
+			local warning_count = 0
+
+			for _, diagnostic in ipairs(diagnostics) do
+				if diagnostic.severity == vim.diagnostic.severity.ERROR then
+					error_count = error_count + 1
+				elseif diagnostic.severity == vim.diagnostic.severity.WARN then
+					warning_count = warning_count + 1
+				end
+			end
+
+			if error_count > 0 or warning_count > 0 then
+				return string.format("E:%d W:%d", error_count, warning_count)
+			else
+				return nil
+			end
 		end
 
 		lualine.setup({
@@ -97,11 +112,11 @@ return {
 						end,
 					},
 					{
-						linter_status,
+						diagnostics_status,
 						icon = "🔍:",
 						color = { fg = "#51afef" },
 						cond = function()
-							return linter_status() ~= nil
+							return diagnostics_status() ~= nil
 						end,
 					},
 					{
