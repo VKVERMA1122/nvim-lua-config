@@ -4,6 +4,7 @@ return {
 		dependencies = {
 			"L3MON4D3/LuaSnip",
 			"rafamadriz/friendly-snippets",
+			"saghen/blink.compat",
 		},
 		event = "InsertEnter",
 		version = "*",
@@ -45,8 +46,15 @@ return {
 			signature = { enabled = true },
 			snippets = { preset = "luasnip" },
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "lsp", "path", "snippets", "buffer", "supermaven" },
 				cmdline = {},
+				providers = {
+					supermaven = {
+						name = "supermaven",
+						module = "blink.compat.source",
+						score_offset = 3,
+					},
+				},
 			},
 		},
 	},
