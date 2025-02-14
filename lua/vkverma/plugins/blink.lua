@@ -8,22 +8,17 @@ return {
 		},
 		event = "InsertEnter",
 		version = "*",
-		---@module 'blink.cmp'
-		---@type blink.cmp.Config
-		---@diagnostic disable: missing-fields
 		opts = {
 			keymap = {
 				preset = "default",
 				["<return>"] = { "select_and_accept", "fallback" },
-				-- cmdline = {
-				-- 	preset = "enter",
-				-- 	["<CR>"] = {},
-				-- },
+				-- Enable cmdline completion and auto-select the first candidate by using the "enter" preset.
+				cmdline = {
+					preset = "enter",
+					["<CR>"] = { "select_and_accept", "fallback" },
+				},
 				["<C-l>"] = { "snippet_forward", "fallback" },
 				["<C-h>"] = { "snippet_backward", "fallback" },
-				cmdline = {
-					preset = "none", -- Disable all keymaps in command line mode
-				},
 			},
 			appearance = {
 				use_nvim_cmp_as_default = false,
@@ -52,7 +47,8 @@ return {
 			snippets = { preset = "luasnip" },
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer", "supermaven" },
-				cmdline = {},
+				-- Activate cmdline sources as needed (empty here means no cmdline-specific sources)
+				-- cmdline = {},
 				providers = {
 					supermaven = {
 						name = "supermaven",
