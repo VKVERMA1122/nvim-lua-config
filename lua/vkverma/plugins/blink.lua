@@ -48,7 +48,7 @@ return {
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer", "supermaven" },
 				-- Activate cmdline sources as needed (empty here means no cmdline-specific sources)
-				-- cmdline = {},
+				cmdline = {},
 				providers = {
 					supermaven = {
 						name = "supermaven",
