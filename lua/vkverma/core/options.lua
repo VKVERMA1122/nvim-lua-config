@@ -27,7 +27,7 @@ vim.o.guifont = "FiraCode NFM:h11"
 opt.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
 
 --set coloscheme to retrobox
--- vim.cmd("colorscheme retrobox")
+vim.cmd("colorscheme retrobox")
 
 --fold
 vim.o.foldcolumn = "0" -- '0' is not bad

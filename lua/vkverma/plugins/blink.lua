@@ -8,6 +8,9 @@ return {
 		},
 		event = "InsertEnter",
 		version = "*",
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
+		---@diagnostic disable: missing-fields
 		opts = {
 			keymap = {
 				preset = "default",
@@ -16,6 +19,8 @@ return {
 				-- 	preset = "enter",
 				-- 	["<CR>"] = {},
 				-- },
+				["<C-l>"] = { "snippet_forward", "fallback" },
+				["<C-h>"] = { "snippet_backward", "fallback" },
 				cmdline = {
 					preset = "none", -- Disable all keymaps in command line mode
 				},
