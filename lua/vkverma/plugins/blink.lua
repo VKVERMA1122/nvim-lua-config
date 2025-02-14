@@ -12,11 +12,6 @@ return {
 			keymap = {
 				preset = "default",
 				["<return>"] = { "select_and_accept", "fallback" },
-				-- Enable cmdline completion and auto-select the first candidate by using the "enter" preset.
-				cmdline = {
-					preset = "enter",
-					["<CR>"] = { "select_and_accept", "fallback" },
-				},
 				["<C-l>"] = { "snippet_forward", "fallback" },
 				["<C-h>"] = { "snippet_backward", "fallback" },
 			},
@@ -47,7 +42,6 @@ return {
 			snippets = { preset = "luasnip" },
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer", "supermaven" },
-				-- Activate cmdline sources as needed (empty here means no cmdline-specific sources)
 				cmdline = {},
 				providers = {
 					supermaven = {
