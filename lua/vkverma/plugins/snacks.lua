@@ -271,9 +271,7 @@ return {
 			},
 			scroll = { enabled = true },
 			lazygit = {
-				lazygit = {
-					enabled = vim.fn.executable("lazygit") == 1,
-				},
+				enabled = vim.fn.executable("lazygit") == 1,
 			},
 			image = {
 				enabled = true,
