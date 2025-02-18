@@ -28,7 +28,7 @@ opt.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
 
 --set colorscheme to retrobox
 -- opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-vim.cmd("colorscheme retrobox")
+-- vim.cmd("colorscheme retrobox")
 
 --fold
 vim.o.foldcolumn = "0" -- '0' is not bad
