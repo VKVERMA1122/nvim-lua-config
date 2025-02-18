@@ -55,6 +55,29 @@ return {
 			end
 		end
 
+		-- Linting status using nvim-lint (correct implementation)
+		local function lint_status()
+			local diagnostics = vim.diagnostic.get(0) -- Uses Neovim's built-in diagnostic API.
+			local lint_error_count = 0
+			local lint_warning_count = 0
+
+			for _, diagnostic in ipairs(diagnostics) do
+				if diagnostic.source == "nvim-lint" then -- Filter only nvim-lint diagnostics.
+					if diagnostic.severity == vim.diagnostic.severity.ERROR then
+						lint_error_count = lint_error_count + 1
+					elseif diagnostic.severity == vim.diagnostic.severity.WARN then
+						lint_warning_count = lint_warning_count + 1
+					end
+				end
+			end
+
+			if lint_error_count > 0 or lint_warning_count > 0 then
+				return string.format("L:%d W:%d", lint_error_count, lint_warning_count)
+			else
+				return nil
+			end
+		end
+
 		lualine.setup({
 			options = {
 				globalstatus = vim.o.laststatus == 3,
@@ -98,7 +121,6 @@ return {
 						lsp_clients,
 						icon = "LSP:",
 						color = { fg = "#98be65" },
-						-- Only show if LSP clients are active
 						cond = function()
 							return lsp_clients() ~= nil
 						end,
@@ -112,8 +134,16 @@ return {
 						end,
 					},
 					{
-						diagnostics_status,
+						lint_status, -- Display linting status here.
 						icon = "🔍:",
+						color = { fg = "#ffcc00" },
+						cond = function()
+							return lint_status() ~= nil
+						end,
+					},
+					{
+						diagnostics_status,
+						icon = "🔧:",
 						color = { fg = "#51afef" },
 						cond = function()
 							return diagnostics_status() ~= nil

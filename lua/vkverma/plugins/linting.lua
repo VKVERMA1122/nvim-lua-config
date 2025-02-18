@@ -12,6 +12,7 @@ return {
 			typescript = { "biomejs" },
 			javascriptreact = { "biomejs" },
 			typescriptreact = { "biomejs" },
+			go = { "golangcilint" },
 			text = { "cspell" },
 			["*"] = { "cspell" }, -- Apply to all filetypes
 		}
