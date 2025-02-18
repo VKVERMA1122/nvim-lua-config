@@ -11,12 +11,12 @@ return {
 		local function lsp_clients()
 			local clients = vim.lsp.get_active_clients({ bufnr = 0 })
 			return #clients > 0
-				and table.concat(
-					vim.tbl_map(function(client)
-						return client.name
-					end, clients),
-					", "
-				)
+					and table.concat(
+						vim.tbl_map(function(client)
+							return client.name
+						end, clients),
+						", "
+					)
 				or nil
 		end
 
@@ -24,13 +24,13 @@ return {
 		local function formatter_status()
 			local ok, formatters = pcall(require("conform").list_formatters, 0)
 			return ok
-				and #formatters > 0
-				and table.concat(
-					vim.tbl_map(function(f)
-						return f.name
-					end, formatters),
-					", "
-				)
+					and #formatters > 0
+					and table.concat(
+						vim.tbl_map(function(f)
+							return f.name
+						end, formatters),
+						", "
+					)
 				or nil
 		end
 
@@ -167,7 +167,7 @@ return {
 					},
 				},
 				lualine_y = {
-					{ "progress", separator = " ",                  padding = { left = 1, right = 0 } },
+					{ "progress", separator = " ", padding = { left = 1, right = 0 } },
 					{ "location", padding = { left = 0, right = 1 } },
 				},
 				lualine_z = {

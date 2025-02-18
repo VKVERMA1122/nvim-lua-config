@@ -1,2 +1,2 @@
-require("vkverma.core")
-require("vkverma.lazy")
+require("core")
+require("lua.lazy")
