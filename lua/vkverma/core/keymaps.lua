@@ -45,3 +45,13 @@ keymap.set("n", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Terminal down window nav
 keymap.set("n", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Terminal up window navigation" })
 keymap.set("n", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Terminal right window navigation" })
 keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+
+-- move selections
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv") -- Shift visual selected line down
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv") -- Shift visual selected line up
+
+-- spell check
+vim.keymap.set("n", "<leader>ll", ":setlocal spell spelllang=en_us<CR>")
+
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
