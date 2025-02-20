@@ -80,6 +80,7 @@ return {
 
 		lualine.setup({
 			options = {
+				theme = "tokyonight",
 				globalstatus = vim.o.laststatus == 3,
 				disabled_filetypes = {
 					statusline = {
@@ -90,7 +91,6 @@ return {
 					},
 				},
 				icons_enabled = true,
-				theme = "auto",
 				component_separators = { left = "", right = "" },
 				section_separators = { left = "", right = "" },
 				always_divide_middle = true,
