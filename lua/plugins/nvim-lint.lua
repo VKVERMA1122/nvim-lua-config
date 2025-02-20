@@ -14,6 +14,7 @@ return {
 			typescriptreact = { "biomejs" },
 			go = { "golangcilint" },
 			text = { "cspell" },
+			--lua = { "selene" },
 			["*"] = { "cspell" }, -- Apply to all filetypes
 		}
 
