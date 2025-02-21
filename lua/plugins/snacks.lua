@@ -149,6 +149,15 @@ return {
 				end,
 				desc = "Lazygit",
 			},
+
+			-- Notifications history
+			{
+				"<leader>nn",
+				function()
+					Snacks.notifier.show_history()
+				end,
+				desc = "Notifier history",
+			},
 		},
 		opts = {
 			picker = {
