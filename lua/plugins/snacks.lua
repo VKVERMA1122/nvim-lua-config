@@ -282,9 +282,6 @@ return {
 			lazygit = {
 				enabled = vim.fn.executable("lazygit") == 1,
 			},
-			image = {
-				enabled = false,
-			},
 		},
 	},
 }
