@@ -176,7 +176,7 @@ return {
 					end,
 				},
 			},
-			extensions = { "neo-tree", "lazy", "fzf" },
+			extensions = { "neo-tree", "lazy", "fzf", "mason", "trouble" },
 			inactive_sections = {
 				lualine_a = {},
 				lualine_b = {},
