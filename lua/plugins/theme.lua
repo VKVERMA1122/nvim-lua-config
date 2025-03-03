@@ -10,8 +10,8 @@ return {
 				terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
 				styles = {
 					comments = { italic = false },
-					-- sidebars = "dark", -- style for sidebars, see below
-					-- floats = "dark", -- style for floating windows
+					sidebars = "transparent", -- style for sidebars, see below
+					floats = "transparent", -- style for floating windows
 				},
 			})
 

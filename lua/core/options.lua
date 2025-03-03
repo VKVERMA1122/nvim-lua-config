@@ -20,7 +20,7 @@ opt.termguicolors = true
 opt.cmdheight = 0 -- make command line smaller
 opt.numberwidth = 3 -- Number column width
 opt.signcolumn = "yes" -- Automatic sign column width
---vim.opt.statuscolumn = "%l%s" -- Status column on the right
+vim.opt.statuscolumn = "%l%s" -- Status column on the right
 
 vim.o.guifont = "FiraCode NFM:h11"
 
