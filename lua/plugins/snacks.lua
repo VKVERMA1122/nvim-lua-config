@@ -221,7 +221,7 @@ return {
 						{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
 						{
 							icon = "󰒲 ",
-							key = "L",
+							key = "l",
 							desc = "Lazy",
 							action = ":Lazy",
 							enabled = package.loaded.lazy ~= nil,

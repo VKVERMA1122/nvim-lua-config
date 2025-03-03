@@ -41,28 +41,20 @@ return {
 			signature = { enabled = true },
 			snippets = { preset = "luasnip" },
 			cmdline = {
-				enabled = false,
+				enabled = true,
+				sources = function()
+					local type = vim.fn.getcmdtype()
+					-- Search forward and backward
+					if type == "/" or type == "?" then
+						return { "buffer" }
+					end
+					-- Commands
+					if type == ":" then
+						return { "cmdline" }
+					end
+					return {}
+				end,
 			},
-			-- cmdline = {
-			-- 	enabled = true,
-			-- 	keymap = {
-			-- 		preset = "super-tab",
-			-- 		["<C-k>"] = { "select_prev", "fallback" },
-			-- 		["<C-j>"] = { "select_next", "fallback" },
-			-- 	},
-			-- 	sources = function()
-			-- 		local type = vim.fn.getcmdtype()
-			-- 		-- Search forward and backward
-			-- 		if type == "/" or type == "?" then
-			-- 			return { "buffer" }
-			-- 		end
-			-- 		-- Commands
-			-- 		if type == ":" then
-			-- 			return { "cmdline" }
-			-- 		end
-			-- 		return {}
-			-- 	end,
-			-- },
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer", "supermaven" },
 				providers = {
