@@ -108,10 +108,10 @@ return {
 					{
 						"diagnostics",
 						symbols = {
-							error = " ",
-							warn = " ",
-							info = " ",
-							hint = " ",
+							error = " ",
+							warn = " ",
+							hint = " ",
+							info = " ",
 						},
 					},
 					{ "filetype" },
