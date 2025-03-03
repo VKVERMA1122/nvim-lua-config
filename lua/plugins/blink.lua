@@ -44,6 +44,7 @@ return {
 				enabled = false,
 			},
 			-- cmdline = {
+			-- 	enabled = true,
 			-- 	keymap = {
 			-- 		preset = "super-tab",
 			-- 		["<C-k>"] = { "select_prev", "fallback" },
