@@ -11,9 +11,9 @@ return {
 				javascriptreact = { "biomejs" },
 				typescriptreact = { "biomejs" },
 				go = { "golangcilint" },
-				text = { "cspell" },
+				-- text = { "cspell" },
 				--lua = { "selene" },
-				["*"] = { "cspell" }, -- Apply to all filetypes
+				-- ["*"] = { "cspell" }, -- Apply to all filetypes
 			},
 			-- LazyVim extension to easily override linter options
 			-- or add custom linters.

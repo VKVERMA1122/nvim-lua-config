@@ -1,7 +1,7 @@
 return {
 	"williamboman/mason.nvim",
 	cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate" },
-	dependencies = { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+	-- dependencies = { "WhoIsSethDaniel/mason-tool-installer.nvim" },
 	config = function()
 		local mason = require("mason")
 		mason.setup({
@@ -14,8 +14,8 @@ return {
 			},
 		})
 
-		require("mason-tool-installer").setup({
-			ensure_installed = { "cspell" },
-		})
+		-- require("mason-tool-installer").setup({
+		-- 	ensure_installed = { "cspell" },
+		-- })
 	end,
 }

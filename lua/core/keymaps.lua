@@ -51,3 +51,8 @@ vim.keymap.set("n", "<leader>ll", ":setlocal spell spelllang=en_us<CR>")
 -- window navigation for centering the current line
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+--buffer navigation
+vim.keymap.set("n", "<tab>", ":bnext<CR>")
+vim.keymap.set("n", "<S-tab>", ":bprevious<CR>")
+vim.keymap.set("n", "<leader>bd", ":bdelete<CR>")
