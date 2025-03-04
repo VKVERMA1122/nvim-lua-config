@@ -27,7 +27,7 @@ vim.o.guifont = "FiraCode NFM:h11"
 opt.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
 
 --set colorscheme to retrobox
--- opt.background = "dark" -- colorschemes that can be light or dark will be made dark
+--opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 -- vim.cmd("colorscheme retrobox")
 
 --fold

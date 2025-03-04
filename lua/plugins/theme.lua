@@ -19,3 +19,13 @@ return {
 		end,
 	},
 }
+
+-- return {
+-- 	"hzchirs/vim-material",
+-- 	lazy = false,
+-- 	priority = 1000,
+-- 	config = function()
+-- 		vim.g.material_style = "oceanic"
+-- 		vim.cmd([[colorscheme vim-material]])
+-- 	end,
+-- }
