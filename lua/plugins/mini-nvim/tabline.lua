@@ -1,5 +1,7 @@
 return {
 	"echasnovski/mini.tabline",
 	version = "*",
-	opts = {},
+	opts = {
+		tabpage_section = "none",
+	},
 }

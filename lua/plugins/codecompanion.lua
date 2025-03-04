@@ -29,7 +29,6 @@ return {
 							},
 						},
 					},
-					inline = { adapter = "anthropic" },
 				},
 			})
 		end,
