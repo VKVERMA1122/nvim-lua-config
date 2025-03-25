@@ -1,56 +1,60 @@
 local opt = vim.opt
+local M = {}
 
-opt.relativenumber = true
-opt.number = true
+local options = {
+  relativenumber = { value = true, type = "boolean", desc = "Enable relative line numbers" },
+  number = { value = true, type = "boolean", desc = "Enable absolute line numbers" },
+  tabstop = { value = 2, type = "number", desc = "Tab width" },
+  shiftwidth = { value = 2, type = "number", desc = "Indent width" },
+  expandtab = { value = true, type = "boolean", desc = "Expand tabs to spaces" },
+  autoindent = { value = true, type = "boolean", desc = "Copy indent from current line" },
+  wrap = { value = false, type = "boolean", desc = "Disable line wrapping" },
+  ignorecase = { value = true, type = "boolean", desc = "Ignore case in searches" },
+  smartcase = { value = true, type = "boolean", desc = "Smart case in searches" },
+  cursorline = { value = true, type = "boolean", desc = "Enable cursor line" },
+  termguicolors = { value = true, type = "boolean", desc = "Enable true color support" },
+  cmdheight = { value = 0, type = "number", desc = "Reduce command line height" },
+  numberwidth = { value = 3, type = "number", desc = "Number column width" },
+  signcolumn = { value = "yes", type = "string", desc = "Automatic sign column width" },
+  fillchars = { value = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:", type = "string", desc = "Fill characters" },
+  foldcolumn = { value = "0", type = "string", desc = "Fold column width" },
+  foldlevel = { value = 99, type = "number", desc = "Fold level" },
+  foldlevelstart = { value = 99, type = "number", desc = "Fold level start" },
+  foldenable = { value = true, type = "boolean", desc = "Enable folding" },
+  backspace = { value = "indent,eol,start", type = "string", desc = "Backspace behavior" },
+  splitright = { value = true, type = "boolean", desc = "Split vertical window to the right" },
+  splitbelow = { value = true, type = "boolean", desc = "Split horizontal window to the bottom" },
+  swapfile = { value = false, type = "boolean", desc = "Disable swapfile" },
+}
 
--- tabs & indentation
-opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 2 -- 2 spaces for indent width
-opt.expandtab = true -- expand tab to spaces
-opt.autoindent = true -- copy indent from current line when starting new one
+for name, config in pairs(options) do
+  M[name] = function(value)
+    if value ~= nil then
+      config.value = value
+    end
+    return config.value
+  end
+  local set_option = function()
+    local success, err = pcall(function()
+      if config.type == "boolean" then
+        opt[name] = config.value
+      elseif config.type == "number" then
+        opt[name] = tonumber(config.value)
+      else
+        opt[name] = tostring(config.value)
+      end
+    end)
+    if not success then
+      vim.api.nvim_err_writeln("Error setting option " .. name .. ": " .. err)
+    end
+  end
+  set_option()
+end
 
-opt.wrap = false
-
--- search settings
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
-
-opt.cursorline = true
-opt.termguicolors = true
-opt.cmdheight = 0 -- make command line smaller
-opt.numberwidth = 3 -- Number column width
-opt.signcolumn = "yes" -- Automatic sign column width
 vim.opt.statuscolumn = "%l%s" -- Status column on the right
-
 vim.o.guifont = "FiraCode NFM:h11"
-
-opt.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
-
---set colorscheme to retrobox
---opt.background = "dark" -- colorschemes that can be light or dark will be made dark
--- vim.cmd("colorscheme retrobox")
-
---fold
-vim.o.foldcolumn = "0" -- '0' is not bad
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-
--- backspace
-opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
-
--- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
-
--- split windows
-opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
-
--- turn off swapfile
-opt.swapfile = false
-
 vim.guifont = "FiraCode NFM:h14"
 
 -- [[ Highlight on yank ]]
@@ -64,19 +68,23 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	pattern = "*",
 })
 
+local function set_powershell_options()
+  local powershell_options = {
+    shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
+    shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+    shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
+    shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
+    shellquote = "",
+    shellxquote = "",
+  }
+  for option, value in pairs(powershell_options) do
+    vim.opt[option] = value
+  end
+end
+
 --setting shell to powershell
 if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 or vim.fn.has("win16") == 1 then
-	local powershell_options = {
-		shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
-		shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
-		shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
-		shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
-		shellquote = "",
-		shellxquote = "",
-	}
-	for option, value in pairs(powershell_options) do
-		vim.opt[option] = value
-	end
+  set_powershell_options()
 end
 
 --neovide
@@ -106,3 +114,5 @@ vim.api.nvim_create_autocmd("TermOpen", {
 		vim.opt.relativenumber = false
 	end,
 })
+
+return M

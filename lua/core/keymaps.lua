@@ -2,57 +2,71 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap -- for conciseness
 
-keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+local function set_keymap(mode, lhs, rhs, opts)
+  local success, err = pcall(keymap.set, mode, lhs, rhs, opts)
+  if not success then
+    vim.api.nvim_err_writeln("Error setting keymap " .. lhs .. ": " .. err)
+  end
+end
 
-keymap.set("n", "<ESC>", ":nohl<CR>", { desc = "Clear search highlights" })
+local keymaps = {
+  { mode = "i", lhs = "jk", rhs = "<ESC>", opts = { desc = "Exit insert mode with jk" } },
+  { mode = "n", lhs = "<ESC>", rhs = ":nohl<CR>", opts = { desc = "Clear search highlights" } },
 
--- increment/decrement numbers
-keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
-keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
+  -- Increment/decrement numbers
+  { mode = "n", lhs = "<leader>+", rhs = "<C-a>", opts = { desc = "Increment number" } },
+  { mode = "n", lhs = "<leader>-", rhs = "<C-x>", opts = { desc = "Decrement number" } },
 
---splits
-keymap.set("n", "|", "<cmd>vsplit<cr>", { desc = "Vertical Split" })
-keymap.set("n", "\\", "<cmd>split<cr>", { desc = "Horizontal Split" })
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
+  -- Splits
+  { mode = "n", lhs = "|", rhs = "<cmd>vsplit<cr>", opts = { desc = "Vertical Split" } },
+  { mode = "n", lhs = "\\", rhs = "<cmd>split<cr>", opts = { desc = "Horizontal Split" } },
+  { mode = "n", lhs = "<leader>se", rhs = "<C-w>=", opts = { desc = "Make splits equal size" } },
 
--- Splits navigation
-keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left split" })
-keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to below split" })
-keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to above split" })
-keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right split" })
-keymap.set("n", "<C-Up>", "<cmd>resize -2<CR>", { desc = "Resize split up" })
-keymap.set("n", "<C-Down>", "<cmd>resize +2<CR>", { desc = "Resize split down" })
-keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Resize split left" })
-keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Resize split right" })
+  -- Splits navigation
+  { mode = "n", lhs = "<C-h>", rhs = "<C-w>h", opts = { desc = "Move to left split" } },
+  { mode = "n", lhs = "<C-j>", rhs = "<C-w>j", opts = { desc = "Move to below split" } },
+  { mode = "n", lhs = "<C-k>", rhs = "<C-w>k", opts = { desc = "Move to above split" } },
+  { mode = "n", lhs = "<C-l>", rhs = "<C-w>l", opts = { desc = "Move to right split" } },
+  { mode = "n", lhs = "<C-Up>", rhs = "<cmd>resize -2<CR>", opts = { desc = "Resize split up" } },
+  { mode = "n", lhs = "<C-Down>", rhs = "<cmd>resize +2<CR>", opts = { desc = "Resize split down" } },
+  { mode = "n", lhs = "<C-Left>", rhs = "<cmd>vertical resize -2<CR>", opts = { desc = "Resize split left" } },
+  { mode = "n", lhs = "<C-Right>", rhs = "<cmd>vertical resize +2<CR>", opts = { desc = "Resize split right" } },
 
--- terminal
-keymap.set("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+  -- Terminal
+  { mode = "t", lhs = "<C-x>", rhs = "<C-\\><C-N>", opts = { desc = "Terminal escape terminal mode" } },
 
--- --tabs navigation
--- keymap.set("n", "<Tab>", "gt", { desc = "Switch to next tab" })
--- keymap.set("n", "<S-Tab>", "gT", { desc = "Switch to previous tab" })
--- keymap.set("n", "tc", "<cmd>:tabclose<cr>", { desc = "Close current tab" })
--- keymap.set("n", "<leader>tn", "<cmd>:tabnew<cr>", { desc = "Create new tab" })
+  -- Tabs navigation
+  -- { mode = "n", lhs = "<Tab>", rhs = "gt", opts = { desc = "Switch to next tab" } },
+  -- { mode = "n", lhs = "<S-Tab>", rhs = "gT", opts = { desc = "Switch to previous tab" } },
+  -- { mode = "n", lhs = "tc", rhs = "<cmd>:tabclose<cr>", opts = { desc = "Close current tab" } },
+  -- { mode = "n", lhs = "<leader>tn", rhs = "<cmd>:tabnew<cr>", opts = { desc = "Create new tab" } },
 
---terminal navigation
-keymap.set("n", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Terminal left window navigation" })
-keymap.set("n", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Terminal down window navigation" })
-keymap.set("n", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Terminal up window navigation" })
-keymap.set("n", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Terminal right window navigation" })
-keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+  -- Terminal navigation
+  { mode = "n", lhs = "<C-h>", rhs = "<cmd>wincmd h<cr>", opts = { desc = "Terminal left window navigation" } },
+  { mode = "n", lhs = "<C-j>", rhs = "<cmd>wincmd j<cr>", opts = { desc = "Terminal down window navigation" } },
+  { mode = "n", lhs = "<C-k>", rhs = "<cmd>wincmd k<cr>", opts = { desc = "Terminal up window navigation" } },
+  { mode = "n", lhs = "<C-l>", rhs = "<cmd>wincmd l<cr>", opts = { desc = "Terminal right window navigation" } },
 
--- move selections
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv") -- Shift visual selected line down
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv") -- Shift visual selected line up
+  -- Terminal escape
+  { mode = "t", lhs = "<esc><esc>", rhs = "<c-\\><c-n>"},
 
--- spell check
-vim.keymap.set("n", "<leader>ll", ":setlocal spell spelllang=en_us<CR>")
+  -- Move selections
+  { mode = "v", lhs = "J", rhs = ":m '>+1<CR>gv=gv", opts = { desc = "Shift visual selected line down" } },
+  { mode = "v", lhs = "K", rhs = ":m '<-2<CR>gv=gv", opts = { desc = "Shift visual selected line up" } },
 
--- window navigation for centering the current line
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
+  -- Spell check
+  { mode = "n", lhs = "<leader>ll", rhs = ":setlocal spell spelllang=en_us<CR>", opts = { desc = "Set spell check to en_us" } },
 
---buffer navigation
-vim.keymap.set("n", "<tab>", ":bnext<CR>")
-vim.keymap.set("n", "<S-tab>", ":bprevious<CR>")
-vim.keymap.set("n", "<leader>bd", ":bdelete<CR>")
+  -- Window navigation for centering the current line
+  { mode = "n", lhs = "<C-d>", rhs = "<C-d>zz", opts = { desc = "Center line after scrolling down" } },
+  { mode = "n", lhs = "<C-u>", rhs = "<C-u>zz", opts = { desc = "Center line after scrolling up" } },
+
+  -- Buffer navigation
+  { mode = "n", lhs = "<tab>", rhs = ":bnext<CR>", opts = { desc = "Go to next buffer" } },
+  { mode = "n", lhs = "<S-tab>", rhs = ":bprevious<CR>", opts = { desc = "Go to previous buffer" } },
+  { mode = "n", lhs = "<leader>bd", rhs = ":bdelete<CR>", opts = { desc = "Delete current buffer" } },
+}
+
+for _, map in ipairs(keymaps) do
+  set_keymap(map.mode, map.lhs, map.rhs, map.opts)
+end
