@@ -45,7 +45,7 @@ require("lazy").setup({
 			disabled_plugins = {
 				"gzip",
 				-- "matchit",
-				-- "matchparen",
+				-- "matchparen", -- Disabled, potentially replaced by mini.pairs or similar
 				-- "netrwPlugin",
 				"tarPlugin",
 				"tohtml",

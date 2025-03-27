@@ -1,6 +1,7 @@
 local opt = vim.opt
-local M = {}
 
+-- Define Vim options in a table for clarity and easy management
+-- Refactor: Simplified option setting by directly applying values using vim.opt
 local options = {
   relativenumber = { value = true, type = "boolean", desc = "Enable relative line numbers" },
   number = { value = true, type = "boolean", desc = "Enable absolute line numbers" },
@@ -27,51 +28,46 @@ local options = {
   swapfile = { value = false, type = "boolean", desc = "Disable swapfile" },
 }
 
+-- Iterate through the options table and set them using vim.opt
 for name, config in pairs(options) do
-  M[name] = function(value)
-    if value ~= nil then
-      config.value = value
+  local success, err = pcall(function()
+    -- Refactor: Directly set vim.opt[name] based on type
+    if config.type == "boolean" then
+      opt[name] = config.value
+    elseif config.type == "number" then
+      opt[name] = tonumber(config.value) -- Ensure value is a number
+    else                                 -- string
+      opt[name] = tostring(config.value) -- Ensure value is a string
     end
-    return config.value
+  end)
+  if not success then
+    vim.api.nvim_err_writeln("Error setting option " .. name .. ": " .. err)
   end
-  local set_option = function()
-    local success, err = pcall(function()
-      if config.type == "boolean" then
-        opt[name] = config.value
-      elseif config.type == "number" then
-        opt[name] = tonumber(config.value)
-      else
-        opt[name] = tostring(config.value)
-      end
-    end)
-    if not success then
-      vim.api.nvim_err_writeln("Error setting option " .. name .. ": " .. err)
-    end
-  end
-  set_option()
 end
 
-vim.opt.statuscolumn = "%l%s" -- Status column on the right
-vim.o.guifont = "FiraCode NFM:h11"
-vim.wo.foldmethod = "expr"
-vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.guifont = "FiraCode NFM:h14"
+-- Specific option settings
+opt.statuscolumn = "%l%s"                           -- Status column on the right
+-- Refactor: Removed redundant guifont setting, using opt consistently
+vim.wo.foldmethod = "expr"                          -- Use window-local option for foldmethod
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Use window-local option for foldexpr
+opt.guifont = "FiraCode NFM:h14"                    -- Set preferred guifont
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	pattern = "*",
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = "*",
 })
 
 local function set_powershell_options()
   local powershell_options = {
     shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
-    shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+    shellcmdflag =
+    "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
     shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
     shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
     shellquote = "",
@@ -89,30 +85,28 @@ end
 
 --neovide
 if vim.g.neovide then
-	-- Put anything you want to happen only in Neovide here
-	vim.o.guifont = "FiraCode NFM:h10.5"
-	vim.g.neovide_padding_top = 0
-	vim.g.neovide_scale_factor = 1.0
-	vim.g.neovide_padding_bottom = 0
-	vim.g.neovide_padding_right = 0
-	vim.g.neovide_padding_left = 0
+  -- Put anything you want to happen only in Neovide here
+  vim.o.guifont = "FiraCode NFM:h10.5"
+  vim.g.neovide_padding_top = 0
+  vim.g.neovide_scale_factor = 1.0
+  vim.g.neovide_padding_bottom = 0
+  vim.g.neovide_padding_right = 0
+  vim.g.neovide_padding_left = 0
 
-	vim.g.neovide_cursor_antialiasing = true
-	-- vim.g.neovide_fullscreen = true
-	vim.g.neovide_refresh_rate_idle = 5
-	vim.g.neovide_refresh_rate = 60
-	vim.g.neovide_theme = "auto"
-	vim.g.neovide_hide_mouse_when_typing = true
-	vim.g.neovide_cursor_animation_length = 0
+  vim.g.neovide_cursor_antialiasing = true
+  -- vim.g.neovide_fullscreen = true
+  vim.g.neovide_refresh_rate_idle = 5
+  vim.g.neovide_refresh_rate = 60
+  vim.g.neovide_theme = "auto"
+  vim.g.neovide_hide_mouse_when_typing = true
+  vim.g.neovide_cursor_animation_length = 0
 end
 
 --terminal options
 vim.api.nvim_create_autocmd("TermOpen", {
-	group = vim.api.nvim_create_augroup("term_options", { clear = true }),
-	callback = function()
-		vim.opt.number = false
-		vim.opt.relativenumber = false
-	end,
+  group = vim.api.nvim_create_augroup("term_options", { clear = true }),
+  callback = function()
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+  end,
 })
-
-return M

@@ -1,23 +1,21 @@
 return {
-	{
-		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			require("tokyonight").setup({
-				style = "night",
-				transparent = true, -- Enable this to disable setting the background color
-				terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
-				styles = {
-					comments = { italic = false },
-					sidebars = "transparent", -- style for sidebars, see below
-					floats = "transparent", -- style for floating windows
-				},
-			})
-
-			vim.cmd([[colorscheme tokyonight]])
-		end,
-	},
+	"folke/tokyonight.nvim",
+	lazy = false,
+	priority = 1000,
+	init = function()
+		require("tokyonight").setup({
+			style = "night",
+			transparent = true, -- Enable this to disable setting the background color
+			terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
+			styles = {
+				comments = { italic = false },
+				sidebars = "transparent", -- style for sidebars, see below
+				floats = "transparent", -- style for floating windows
+			},
+		})
+		-- Refactor: Use vim.opt.colorscheme for consistency
+		vim.cmd([[colorscheme tokyonight]])
+	end,
 }
 
 -- return {
