@@ -5,5 +5,9 @@ return {
 		"sindrets/diffview.nvim", -- optional - Diff integration
 	},
 	cmd = { "Neogit" },
-	config = true,
+	config = {
+		integrations = {
+			diffview = true,
+		},
+	},
 }
