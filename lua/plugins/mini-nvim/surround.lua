@@ -14,9 +14,9 @@ return {
 		-- saiw surround with no whitespace
 		-- saw surround with whitespace
 		mappings = {
-			add = "sa",   -- Add surrounding in Normal and Visual modes
+			add = "sa", -- Add surrounding in Normal and Visual modes
 			delete = "ds", -- Delete surrounding
-			find = "sf",  -- Find surrounding (to the right)
+			find = "sf", -- Find surrounding (to the right)
 			find_left = "sF", -- Find surrounding (to the left)
 			highlight = "sh", -- Highlight surrounding
 			replace = "sr", -- Replace surrounding
