@@ -25,7 +25,7 @@ return {
 				javascriptreact = { "biome" },
 				typescriptreact = { "biome" },
 				lua = { "stylua" },
-				go = { "gofumpt" },
+				go = { "gofmt" },
 			},
 			format_on_save = format_opts, -- Reuse format_opts
 			formatters = {
