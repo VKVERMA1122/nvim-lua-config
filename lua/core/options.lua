@@ -30,6 +30,7 @@ local options = {
 	splitright = { value = true, type = "boolean", desc = "Split vertical window to the right" },
 	splitbelow = { value = true, type = "boolean", desc = "Split horizontal window to the bottom" },
 	swapfile = { value = false, type = "boolean", desc = "Disable swapfile" },
+	clipboard = { value = "unnamedplus", type = "string", desc = "Enable system clipboard integration" },
 }
 
 -- Iterate through the options table and set them using vim.opt
