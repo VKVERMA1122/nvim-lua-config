@@ -3,7 +3,7 @@ return {
 	event = { "BufWritePost", "InsertLeave", "BufReadPost" },
 	opts = {
 		-- Refactor: Removed redundant events option, using event from plugin spec
-		events = { "BufWritePost", "InsertLeave", "BufReadPost" },
+
 		linters_by_ft = {
 			javascript = { "biomejs" },
 			typescript = { "biomejs" },
@@ -28,7 +28,7 @@ return {
 			-- },
 		},
 	},
-	config = function(_, opts)
+	config = function(plugin, opts)
 		local M = {}
 
 		local lint = require("lint")
@@ -82,7 +82,7 @@ return {
 			names = vim.tbl_filter(function(name)
 				local linter = lint.linters[name]
 				if not linter then
-					Snacks.notify.warn("Linter not found: " .. name, { title = "nvim-lint" })
+					Snacks.notifier.warn("Linter not found: " .. name, { title = "nvim-lint" })
 				end
 				return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
 			end, names)
@@ -93,7 +93,7 @@ return {
 			end
 		end
 
-		vim.api.nvim_create_autocmd(opts.events, { -- Use events from plugin spec
+		vim.api.nvim_create_autocmd(plugin.event, { -- Use events from plugin spec
 			group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
 			callback = M.debounce(100, M.lint),
 		})
