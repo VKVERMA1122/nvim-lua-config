@@ -9,7 +9,7 @@ return {
 
 		-- -- LSP Clients (only show if clients are active)
 		local function lsp_clients()
-			local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+			local clients = vim.lsp.get_clients({ bufnr = 0 })
 			return #clients > 0
 					and table.concat(
 						vim.tbl_map(function(client)
