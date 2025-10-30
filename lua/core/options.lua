@@ -31,6 +31,8 @@ local options = {
 	splitbelow = { value = true, type = "boolean", desc = "Split horizontal window to the bottom" },
 	swapfile = { value = false, type = "boolean", desc = "Disable swapfile" },
 	clipboard = { value = "unnamedplus", type = "string", desc = "Enable system clipboard integration" },
+	mouse = { value = "a", type = "string", desc = "Mouse support" },
+	showmode = { value = false, type = "boolean", desc = "Show mode in command line" },
 }
 
 -- Iterate through the options table and set them using vim.opt
