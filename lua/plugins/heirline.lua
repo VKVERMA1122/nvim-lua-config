@@ -4,7 +4,7 @@ return {
 	event = "VimEnter",
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
-		"SmiteshP/nvim-navic", -- For code context
+		-- "SmiteshP/nvim-navic", -- For code context
 	},
 	config = function()
 		local heirline = require("heirline")
@@ -361,88 +361,143 @@ return {
 			hl = { fg = "green", bold = true },
 		}
 
-		-- Navic (breadcrumbs)
-		local Navic = {
+		-- Formatter Status (conform.nvim)
+		local FormatterStatus = {
 			condition = function()
-				return require("nvim-navic").is_available()
-			end,
-			static = {
-				type_hl = {
-					File = "Directory",
-					Module = "@include",
-					Namespace = "@namespace",
-					Package = "@include",
-					Class = "@structure",
-					Method = "@method",
-					Property = "@property",
-					Field = "@field",
-					Constructor = "@constructor",
-					Enum = "@field",
-					Interface = "@type",
-					Function = "@function",
-					Variable = "@variable",
-					Constant = "@constant",
-					String = "@string",
-					Number = "@number",
-					Boolean = "@boolean",
-					Array = "@field",
-					Object = "@type",
-					Key = "@keyword",
-					Null = "@comment",
-					EnumMember = "@field",
-					Struct = "@structure",
-					Event = "@keyword",
-					Operator = "@operator",
-					TypeParameter = "@type",
-				},
-				enc = function(line, col, winnr)
-					return bit.bor(bit.lshift(line, 16), bit.lshift(col, 6), winnr)
-				end,
-				dec = function(c)
-					local line = bit.rshift(c, 16)
-					local col = bit.band(bit.rshift(c, 6), 1023)
-					local winnr = bit.band(c, 63)
-					return line, col, winnr
-				end,
-			},
-			init = function(self)
-				local data = require("nvim-navic").get_data() or {}
-				local children = {}
-				for i, d in ipairs(data) do
-					local pos = self.enc(d.scope.start.line, d.scope.start.character, self.winnr)
-					local child = {
-						{
-							provider = d.icon,
-							hl = self.type_hl[d.type],
-						},
-						{
-							provider = d.name:gsub("%%", "%%%%"):gsub("%s*->%s*", ""),
-							on_click = {
-								minwid = pos,
-								callback = function(_, minwid)
-									local line, col, winnr = self.dec(minwid)
-									vim.api.nvim_win_set_cursor(vim.fn.win_getid(winnr), { line, col })
-								end,
-								name = "heirline_navic",
-							},
-						},
-					}
-					if #data > 1 and i < #data then
-						table.insert(child, {
-							provider = " > ",
-							hl = { fg = "bright_fg" },
-						})
-					end
-					table.insert(children, child)
+				local ok, conform = pcall(require, "conform")
+				if not ok then
+					return false
 				end
-				self.child = self:new(children, 1)
+				local formatters = conform.list_formatters(0)
+				return #formatters > 0
 			end,
-			provider = function(self)
-				return self.child:eval()
+			provider = function()
+				local conform = require("conform")
+				local formatters = conform.list_formatters(0)
+				local names = vim.tbl_map(function(f)
+					return f.name
+				end, formatters)
+				return " [" .. table.concat(names, " ") .. "]"
 			end,
-			hl = { fg = "gray" },
-			update = "CursorMoved",
+			hl = { fg = "orange", bold = true },
 		}
+
+		-- Linter Status (nvim-lint)
+		local LinterStatus = {
+			condition = function()
+				local ok, lint = pcall(require, "lint")
+				if not ok then
+					return false
+				end
+				-- Get linters for current filetype
+				local linters = lint.linters_by_ft[vim.bo.filetype]
+				if not linters then
+					return false
+				end
+				-- Handle both table and function return values
+				if type(linters) == "function" then
+					linters = linters()
+				end
+				return linters and #linters > 0
+			end,
+			provider = function()
+				local lint = require("lint")
+				local linters = lint.linters_by_ft[vim.bo.filetype] or {}
+				-- Handle function return
+				if type(linters) == "function" then
+					linters = linters()
+				end
+				if linters and #linters > 0 then
+					return "󱉶 [" .. table.concat(linters, " ") .. "]"
+				end
+				return ""
+			end,
+			hl = { fg = "cyan", bold = true },
+			update = { "BufEnter", "FileType" },
+		}
+
+		-- Navic (breadcrumbs)
+		-- local Navic = {
+		-- 	condition = function()
+		-- 		return require("nvim-navic").is_available()
+		-- 	end,
+		-- 	static = {
+		-- 		type_hl = {
+		-- 			File = "Directory",
+		-- 			Module = "@include",
+		-- 			Namespace = "@namespace",
+		-- 			Package = "@include",
+		-- 			Class = "@structure",
+		-- 			Method = "@method",
+		-- 			Property = "@property",
+		-- 			Field = "@field",
+		-- 			Constructor = "@constructor",
+		-- 			Enum = "@field",
+		-- 			Interface = "@type",
+		-- 			Function = "@function",
+		-- 			Variable = "@variable",
+		-- 			Constant = "@constant",
+		-- 			String = "@string",
+		-- 			Number = "@number",
+		-- 			Boolean = "@boolean",
+		-- 			Array = "@field",
+		-- 			Object = "@type",
+		-- 			Key = "@keyword",
+		-- 			Null = "@comment",
+		-- 			EnumMember = "@field",
+		-- 			Struct = "@structure",
+		-- 			Event = "@keyword",
+		-- 			Operator = "@operator",
+		-- 			TypeParameter = "@type",
+		-- 		},
+		-- 		enc = function(line, col, winnr)
+		-- 			return bit.bor(bit.lshift(line, 16), bit.lshift(col, 6), winnr)
+		-- 		end,
+		-- 		dec = function(c)
+		-- 			local line = bit.rshift(c, 16)
+		-- 			local col = bit.band(bit.rshift(c, 6), 1023)
+		-- 			local winnr = bit.band(c, 63)
+		-- 			return line, col, winnr
+		-- 		end,
+		-- 	},
+		-- 	init = function(self)
+		-- 		local data = require("nvim-navic").get_data() or {}
+		-- 		local children = {}
+		-- 		for i, d in ipairs(data) do
+		-- 			local pos = self.enc(d.scope.start.line, d.scope.start.character, self.winnr)
+		-- 			local child = {
+		-- 				{
+		-- 					provider = d.icon,
+		-- 					hl = self.type_hl[d.type],
+		-- 				},
+		-- 				{
+		-- 					provider = d.name:gsub("%%", "%%%%"):gsub("%s*->%s*", ""),
+		-- 					on_click = {
+		-- 						minwid = pos,
+		-- 						callback = function(_, minwid)
+		-- 							local line, col, winnr = self.dec(minwid)
+		-- 							vim.api.nvim_win_set_cursor(vim.fn.win_getid(winnr), { line, col })
+		-- 						end,
+		-- 						name = "heirline_navic",
+		-- 					},
+		-- 				},
+		-- 			}
+		-- 			if #data > 1 and i < #data then
+		-- 				table.insert(child, {
+		-- 					provider = " > ",
+		-- 					hl = { fg = "bright_fg" },
+		-- 				})
+		-- 			end
+		-- 			table.insert(children, child)
+		-- 		end
+		-- 		self.child = self:new(children, 1)
+		-- 	end,
+		-- 	provider = function(self)
+		-- 		return self.child:eval()
+		-- 	end,
+		-- 	hl = { fg = "gray" },
+		-- 	update = "CursorMoved",
+		-- }
 
 		-- Ruler (cursor position)
 		local Ruler = {
@@ -476,14 +531,18 @@ return {
 			Space,
 			Git,
 			Space,
-			FileNameBlock,
 			-- FileLastModified,
 			Space,
 			Diagnostics,
 			Align,
-			Navic,
+			FileNameBlock,
+			-- Navic,
 			Align,
 			LSPActive,
+			Space,
+			FormatterStatus,
+			Space,
+			LinterStatus,
 			-- FileEncoding,
 			-- FileFormat,
 			-- FileType,
@@ -554,6 +613,18 @@ return {
 			end,
 		}
 
+		-- Navic for Winbar (more visible here)
+		local NavicWinbar = {
+			condition = function()
+				return require("nvim-navic").is_available()
+			end,
+			provider = function()
+				return require("nvim-navic").get_location()
+			end,
+			hl = { fg = "gray" },
+			update = "CursorMoved",
+		}
+
 		local winbar = {
 			condition = function()
 				return not conditions.buffer_matches({
@@ -568,6 +639,8 @@ return {
 			end,
 			FileIcon_Winbar,
 			FilePath,
+			{ provider = " > " },
+			NavicWinbar,
 		}
 
 		--------------------------------------------------------------------------
