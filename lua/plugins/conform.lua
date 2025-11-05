@@ -24,6 +24,7 @@ return {
 				typescript = { "biome" },
 				javascriptreact = { "biome" },
 				typescriptreact = { "biome" },
+				json = { "biome" },
 				lua = { "stylua" },
 				go = { "gofmt" },
 			},
