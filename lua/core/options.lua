@@ -48,12 +48,12 @@ for name, config in pairs(options) do
 		end
 	end)
 	if not success then
-		vim.api.nvim_err_writeln("Error setting option " .. name .. ": " .. err)
+		vim.notify("Error setting option " .. name .. ": " .. err, vim.log.levels.ERROR)
 	end
 end
 
 -- Specific option settings
-opt.statuscolumn = "%l%s" -- Status column on the right
+-- opt.statuscolumn = "%l%s"                           -- Status column on the right
 -- Refactor: Removed redundant guifont setting, using opt consistently
 vim.wo.foldmethod = "expr" -- Use window-local option for foldmethod
 vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Use window-local option for foldexpr
@@ -123,8 +123,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		if client and client:supports_method("textDocument/foldingRange") then
 			local win = vim.api.nvim_get_current_win()
-			vim.wo[win][0].foldmethod = "expr"
-			vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+			vim.wo[win].foldmethod = "expr"
+			vim.wo[win].foldexpr = "v:lua.vim.lsp.foldexpr()"
 		end
 	end,
 })
@@ -133,19 +133,19 @@ vim.api.nvim_create_autocmd("LspDetach", { command = "setl foldexpr<" })
 vim.diagnostic.config({ virtual_text = true })
 
 -- restore cursor to file position in previous editing session
-vim.api.nvim_create_autocmd("BufReadPost", {
-	callback = function(args)
-		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
-		local line_count = vim.api.nvim_buf_line_count(args.buf)
-		if mark[1] > 0 and mark[1] <= line_count then
-			vim.api.nvim_win_set_cursor(0, mark)
-			-- defer centering slightly so it's applied after render
-			vim.schedule(function()
-				vim.cmd("normal! zz")
-			end)
-		end
-	end,
-})
+-- vim.api.nvim_create_autocmd("BufReadPost", {
+-- 	callback = function(args)
+-- 		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+-- 		local line_count = vim.api.nvim_buf_line_count(args.buf)
+-- 		if mark[1] > 0 and mark[1] <= line_count then
+-- 			vim.api.nvim_win_set_cursor(0, mark)
+-- 			-- defer centering slightly so it's applied after render
+-- 			vim.schedule(function()
+-- 				vim.cmd("normal! zz")
+-- 			end)
+-- 		end
+-- 	end,
+-- })
 
 -- open help in vertical split
 vim.api.nvim_create_autocmd("FileType", {
@@ -196,18 +196,15 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 	group = vim.api.nvim_create_augroup("LspReferenceHighlight", { clear = true }),
 	desc = "Highlight references under cursor",
 	callback = function()
-		-- Only run if the cursor is not in insert mode
 		if vim.fn.mode() ~= "i" then
 			local clients = vim.lsp.get_clients({ bufnr = 0 })
 			local supports_highlight = false
 			for _, client in ipairs(clients) do
 				if client.server_capabilities.documentHighlightProvider then
 					supports_highlight = true
-					break -- Found a supporting client, no need to check others
+					break
 				end
 			end
-
-			-- 3. Proceed only if an LSP is active AND supports the feature
 			if supports_highlight then
 				vim.lsp.buf.clear_references()
 				vim.lsp.buf.document_highlight()
@@ -215,8 +212,6 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 		end
 	end,
 })
-
--- ide like highlight when stopping cursor
 vim.api.nvim_create_autocmd("CursorMovedI", {
 	group = "LspReferenceHighlight",
 	desc = "Clear highlights when entering insert mode",

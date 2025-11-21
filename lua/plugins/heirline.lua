@@ -761,8 +761,10 @@ return {
 		local statuscolumn = {
 			init = function(self)
 				self.bufnr = vim.api.nvim_get_current_buf()
-				self.diagnostics = vim.diagnostic.get(self.bufnr, { lnum = vim.v.lnum - 1 })
-				local signs = vim.fn.sign_getplaced(self.bufnr, { group = "gitsigns", lnum = vim.v.lnum })[1]
+				if not self.bufnr then return end
+
+				self.diagnostics = vim.diagnostic.get(self.bufnr, { lnum = (vim.v.lnum or 1) - 1 })
+				local signs = vim.fn.sign_getplaced(self.bufnr, { group = "gitsigns", lnum = (vim.v.lnum or 1) })[1]
 				self.gitsign = signs and #signs.signs > 0 and signs.signs[1] or nil
 			end,
 			{
@@ -777,40 +779,57 @@ return {
 			},
 			{
 				provider = function(self)
-					if #self.diagnostics > 0 then
+					if self.diagnostics and #self.diagnostics > 0 then
 						local severity = self.diagnostics[1].severity
-						if severity == vim.diagnostic.severity.ERROR then
-							return ""
-						end
-						if severity == vim.diagnostic.severity.WARN then
-							return ""
-						end
+						if severity == vim.diagnostic.severity.ERROR then return "" end
+						if severity == vim.diagnostic.severity.WARN then return "" end
 					end
 					return " "
 				end,
 				hl = function(self)
-					if #self.diagnostics > 0 then
+					if self.diagnostics and #self.diagnostics > 0 then
 						local severity = self.diagnostics[1].severity
 						if severity == vim.diagnostic.severity.ERROR then
 							return { fg = "#f7768e" }
-						end
-						if severity == vim.diagnostic.severity.WARN then
+						elseif severity == vim.diagnostic.severity.WARN then
 							return { fg = "#e0af68" }
 						end
 					end
 				end,
 			},
 			{
+				-- MANUAL CALCULATION PROVIDER (Crash-proof)
 				provider = function()
-					return string.format(
-						"%3s",
-						vim.o.relativenumber and (vim.v.relativenum == 0 and vim.v.lnum or vim.v.relativenum)
-							or vim.v.lnum
-					)
+					local lnum = vim.v.lnum
+					if not lnum then return "    " end
+
+					-- Check if relative numbers are enabled
+					if vim.wo.relativenumber then
+						-- Get the cursor line manually
+						local cursor = vim.fn.line('.')
+						-- Calculate relative distance (Math.abs)
+						local rel = math.abs(lnum - cursor)
+
+						-- Logic: If current line (0 distance), show real line number.
+						-- Otherwise, show the distance.
+						if rel == 0 then
+							return string.format("%3d", lnum)
+						else
+							return string.format("%3d", rel)
+						end
+					else
+						-- If relative numbers are off, just show absolute
+						return string.format("%3d", lnum)
+					end
 				end,
 				hl = function()
-					if vim.o.relativenumber and vim.v.relativenum == 0 then
-						return { bold = true }
+					local lnum = vim.v.lnum or 0
+					local cursor = vim.fn.line('.')
+					local rel = math.abs(lnum - cursor)
+
+					-- Highlight current line (distance 0) differently
+					if rel == 0 then
+						return { fg = "blue", bold = true }
 					else
 						return { fg = "gray" }
 					end

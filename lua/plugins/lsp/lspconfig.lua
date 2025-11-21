@@ -11,7 +11,7 @@ return {
 		{
 			"j-hui/fidget.nvim",
 			config = function()
-				require("fidget").setup()
+				require("fidget").setup({})
 			end,
 		},
 		-- Add nvim-navic dependency
@@ -83,8 +83,12 @@ return {
 				keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, bufopts)
 				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
 				keymap.set("n", "<leader>d", vim.diagnostic.open_float, bufopts)
-				keymap.set("n", "[d", vim.diagnostic.goto_prev, bufopts)
-				keymap.set("n", "]d", vim.diagnostic.goto_next, bufopts)
+				keymap.set("n", "[d", function()
+					vim.diagnostic.jump({ count = -1, float = true })
+				end, bufopts)
+				keymap.set("n", "]d", function()
+					vim.diagnostic.jump({ count = 1, float = true })
+				end, bufopts)
 				keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", { silent = true })
 			end,
