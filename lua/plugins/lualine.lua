@@ -1,6 +1,5 @@
 return {
 	"nvim-lualine/lualine.nvim",
-	enabled = false,
 	event = "VeryLazy",
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
@@ -8,7 +7,7 @@ return {
 	config = function()
 		local lualine = require("lualine")
 
-		-- -- LSP Clients (only show if clients are active)
+		-- LSP Clients (only show if clients are active)
 		local function lsp_clients()
 			local clients = vim.lsp.get_clients({ bufnr = 0 })
 			if #clients > 0 then
@@ -17,22 +16,21 @@ return {
 				return nil
 			end
 		end
-		--
-		-- -- Formatter status (only show if formatters exist)
+		-- Formatter status (only show if formatters exist)
 		local function formatter_status()
 			local ok, formatters = pcall(require("conform").list_formatters, 0)
 			return ok
-				and #formatters > 0
-				and table.concat(
-					vim.tbl_map(function(f)
-						return f.name
-					end, formatters),
-					", "
-				)
-			or nil
+					and #formatters > 0
+					and table.concat(
+						vim.tbl_map(function(f)
+							return f.name
+						end, formatters),
+						", "
+					)
+				or nil
 		end
-		--
-		-- -- Diagnostics status using LSP
+
+		-- Diagnostics status using LSP
 		local function diagnostics_status()
 			local diagnostics = vim.diagnostic.get(0)
 			local error_count = 0
@@ -52,8 +50,8 @@ return {
 				return nil
 			end
 		end
-		--
-		-- -- Linting status using nvim-lint (correct implementation)
+
+		-- Linting status using nvim-lint (correct implementation)
 		local function lint_status()
 			local diagnostics = vim.diagnostic.get(0) -- Uses Neovim's built-in diagnostic API.
 			local lint_error_count = 0
@@ -117,9 +115,9 @@ return {
 				lualine_x = {
 					{
 						lsp_clients,
-						icon = "LSP",
+						-- icon = "LSP",
 						color = { fg = "#98be65" },
-						padding = { left = 0, right = 0 },
+						padding = { left = 1, right = 0 },
 						separator = "",
 						cond = function()
 							return lsp_clients() ~= nil
@@ -127,9 +125,9 @@ return {
 					},
 					{
 						formatter_status,
-						icon = "󰉢",
+						-- icon = "󰉢",
 						color = { fg = "#ff6c6b" },
-						padding = { left = 0, right = 0 },
+						padding = { left = 1, right = 0 },
 						separator = "",
 						cond = function()
 							return formatter_status() ~= nil
@@ -137,9 +135,9 @@ return {
 					},
 					{
 						lint_status, -- Display linting status here.
-						icon = "󰉡",
+						-- icon = "󰉡",
 						color = { fg = "#ffcc00" },
-						padding = { left = 0, right = 0 },
+						padding = { left = 1, right = 0 },
 						separator = "",
 						cond = function()
 							return lint_status() ~= nil

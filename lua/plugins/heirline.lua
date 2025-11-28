@@ -2,6 +2,7 @@
 return {
 	"rebelot/heirline.nvim",
 	event = "VimEnter",
+	enabled = false,
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
 		-- "SmiteshP/nvim-navic", -- For code context
@@ -761,7 +762,9 @@ return {
 		local statuscolumn = {
 			init = function(self)
 				self.bufnr = vim.api.nvim_get_current_buf()
-				if not self.bufnr then return end
+				if not self.bufnr then
+					return
+				end
 
 				self.diagnostics = vim.diagnostic.get(self.bufnr, { lnum = (vim.v.lnum or 1) - 1 })
 				local signs = vim.fn.sign_getplaced(self.bufnr, { group = "gitsigns", lnum = (vim.v.lnum or 1) })[1]
@@ -781,8 +784,12 @@ return {
 				provider = function(self)
 					if self.diagnostics and #self.diagnostics > 0 then
 						local severity = self.diagnostics[1].severity
-						if severity == vim.diagnostic.severity.ERROR then return "" end
-						if severity == vim.diagnostic.severity.WARN then return "" end
+						if severity == vim.diagnostic.severity.ERROR then
+							return ""
+						end
+						if severity == vim.diagnostic.severity.WARN then
+							return ""
+						end
 					end
 					return " "
 				end,
@@ -801,12 +808,14 @@ return {
 				-- MANUAL CALCULATION PROVIDER (Crash-proof)
 				provider = function()
 					local lnum = vim.v.lnum
-					if not lnum then return "    " end
+					if not lnum then
+						return "    "
+					end
 
 					-- Check if relative numbers are enabled
 					if vim.wo.relativenumber then
 						-- Get the cursor line manually
-						local cursor = vim.fn.line('.')
+						local cursor = vim.fn.line(".")
 						-- Calculate relative distance (Math.abs)
 						local rel = math.abs(lnum - cursor)
 
@@ -824,7 +833,7 @@ return {
 				end,
 				hl = function()
 					local lnum = vim.v.lnum or 0
-					local cursor = vim.fn.line('.')
+					local cursor = vim.fn.line(".")
 					local rel = math.abs(lnum - cursor)
 
 					-- Highlight current line (distance 0) differently

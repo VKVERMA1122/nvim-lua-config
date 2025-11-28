@@ -3,7 +3,6 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	event = "VeryLazy",
 	version = "*",
-	enabled = false,
 	keys = {
 		{ "<Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
 		{ "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
