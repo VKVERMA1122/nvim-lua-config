@@ -81,7 +81,7 @@ return {
 
 		lualine.setup({
 			options = {
-				theme = "auto",
+				theme = "gruvbox",
 				globalstatus = vim.o.laststatus == 3,
 				disabled_filetypes = {
 					statusline = {

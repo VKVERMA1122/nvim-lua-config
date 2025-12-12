@@ -1,22 +1,46 @@
 return {
-	"folke/tokyonight.nvim",
-	lazy = false,
-	priority = 1000,
-	init = function()
-		require("tokyonight").setup({
-			style = "night",
-			transparent = true, -- Enable this to disable setting the background color
-			terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
-			styles = {
-				comments = { italic = false },
-				sidebars = "transparent", -- style for sidebars, see below
-				floats = "transparent", -- style for floating windows
-			},
-		})
-		-- Refactor: Use vim.opt.colorscheme for consistency
-		vim.cmd([[colorscheme tokyonight]])
-	end,
+	{
+		"ellisonleao/gruvbox.nvim",
+		priority = 1000,
+		config = true,
+		init = function()
+			require("gruvbox").setup({
+				transparent_mode = true,
+				italic = {
+					strings = false,
+					emphasis = false,
+					comments = false,
+					operators = false,
+					folds = false,
+				},
+				dim_inactive = true,
+			})
+
+			vim.o.background = "dark"
+			vim.cmd([[colorscheme gruvbox]])
+		end,
+	},
 }
+
+-- return {
+-- 	"folke/tokyonight.nvim",
+-- 	lazy = false,
+-- 	priority = 1000,
+-- 	init = function()
+-- 		require("tokyonight").setup({
+-- 			style = "night",
+-- 			transparent = true, -- Enable this to disable setting the background color
+-- 			terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
+-- 			styles = {
+-- 				comments = { italic = false },
+-- 				sidebars = "transparent", -- style for sidebars, see below
+-- 				floats = "transparent", -- style for floating windows
+-- 			},
+-- 		})
+-- 		-- Refactor: Use vim.opt.colorscheme for consistency
+-- 		vim.cmd([[colorscheme tokyonight]])
+-- 	end,
+-- }
 
 -- return {
 -- 	"hzchirs/vim-material",
