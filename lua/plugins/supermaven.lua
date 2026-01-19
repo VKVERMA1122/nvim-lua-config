@@ -1,8 +1,9 @@
 return {
 	"supermaven-inc/supermaven-nvim",
 	event = "InsertEnter",
+	enabled = false,
 	opts = {
-		log_level = "off",  -- set to "off" to disable logging completely
+		log_level = "off", -- set to "off" to disable logging completely
 		keymaps = {
 			accept_suggestion = nil, -- handled by nvim-cmp / blink.cmp
 		},

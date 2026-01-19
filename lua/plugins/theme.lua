@@ -1,25 +1,10 @@
 return {
-	{
-		"ellisonleao/gruvbox.nvim",
-		priority = 1000,
-		config = true,
-		init = function()
-			require("gruvbox").setup({
-				transparent_mode = true,
-				italic = {
-					strings = false,
-					emphasis = false,
-					comments = false,
-					operators = false,
-					folds = false,
-				},
-				dim_inactive = true,
-			})
-
-			vim.o.background = "dark"
-			vim.cmd([[colorscheme gruvbox]])
-		end,
-	},
+	"motaz-shokry/gruvbox.nvim",
+	lazy = false,
+	priority = 1000,
+	config = function()
+		vim.cmd([[colorscheme gruvbox-medium]])
+	end,
 }
 
 -- return {
