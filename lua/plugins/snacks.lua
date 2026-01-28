@@ -282,6 +282,12 @@ return {
 			lazygit = {
 				enabled = vim.fn.executable("lazygit") == 1,
 			},
+			toggle = {
+				enabled = true,
+				map = vim.keymap.set,
+				which_key = true, -- integrate with which-key to show enabled/disabled icons and colors
+				notify = true,
+			},
 		},
 	},
 }
