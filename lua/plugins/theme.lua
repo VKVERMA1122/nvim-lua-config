@@ -1,9 +1,13 @@
 return {
-	"motaz-shokry/gruvbox.nvim",
-	lazy = false,
+	"ember-theme/nvim",
+	name = "ember",
 	priority = 1000,
+	lazy = false,
 	config = function()
-		vim.cmd([[colorscheme gruvbox-medium]])
+		require("ember").setup({
+			variant = "ember", -- "ember" | "ember-soft" | "ember-light"
+		})
+		vim.cmd("colorscheme ember")
 	end,
 }
 

@@ -1,15 +1,14 @@
 return {
 	"NeogitOrg/neogit",
-	enabled = false,
+	enabled = true,
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
-		"sindrets/diffview.nvim", -- optional - Diff integration
 		"esmuellert/codediff.nvim",
 	},
 	cmd = { "Neogit" },
 	opts = {
 		integrations = {
-			diffview = true,
+			codediff = true,
 		},
 		mappings = {
 			status = {
