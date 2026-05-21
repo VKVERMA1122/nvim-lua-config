@@ -1,16 +1,17 @@
 return {
 	"ember-theme/nvim",
 	name = "ember",
-	priority = 1000,
 	lazy = false,
+	priority = 1000,
 	config = function()
 		require("ember").setup({
-			variant = "ember", -- "ember" | "ember-soft" | "ember-light"
+			variant = "ember",
 		})
-		vim.cmd("colorscheme ember")
+		vim.schedule(function()
+			vim.cmd("colorscheme ember")
+		end)
 	end,
 }
-
 -- return {
 -- 	"folke/tokyonight.nvim",
 -- 	lazy = false,
