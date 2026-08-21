@@ -128,6 +128,11 @@ return {
 						}
 					end
 
+					if server_name == "biome" then
+						server_config.filetypes = { "javascript", "javascriptreact", "json", "jsonc", "typescript", "typescriptreact" }
+						server_config.root_dir = lspconfig.util.root_pattern("biome.json", "biome.jsonc", "package.json", ".git")
+					end
+
 					if opts.servers and opts.servers[server_name] then
 						server_config = vim.tbl_deep_extend("force", server_config, opts.servers[server_name])
 					end

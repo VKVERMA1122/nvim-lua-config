@@ -1,6 +1,7 @@
 return {
 	"stevearc/conform.nvim",
 	event = { "BufWritePre" },
+	dependencies = { "williamboman/mason.nvim" },
 	config = function()
 		local conform = require("conform")
 
@@ -25,6 +26,7 @@ return {
 				javascriptreact = { "biome" },
 				typescriptreact = { "biome" },
 				json = { "biome" },
+				jsonc = { "biome" },
 				lua = { "stylua" },
 				go = { "gofmt" },
 			},
