@@ -60,24 +60,6 @@ return {
 				follow_current_file = { enabled = true },
 				use_libuv_file_watcher = true,
 			},
-			icon = {
-				folder_closed = "",
-				folder_open = "",
-				folder_empty = "󰜌",
-				provider = function(icon, node, state)
-					if node.type == "file" or node.type == "terminal" then
-						local success, web_devicons = pcall(require, "nvim-web-devicons")
-						local name = node.type == "terminal" and "terminal" or node.name
-						if success then
-							local devicon, hl = web_devicons.get_icon(name)
-							icon.text = devicon or icon.text
-							icon.highlight = hl or icon.highlight
-						end
-					end
-				end,
-				default = "*",
-				highlight = "NeoTreeFileIcon",
-			},
 			modified = {
 				symbol = "[+]",
 				highlight = "NeoTreeModified",
@@ -115,6 +97,24 @@ return {
 					expander_expanded = "",
 					expander_highlight = "NeoTreeExpander",
 				},
+			icon = {
+				folder_closed = "",
+				folder_open = "",
+				folder_empty = "󰜌",
+				default = "*",
+				highlight = "NeoTreeFileIcon",
+				provider = function(icon, node, state)
+					if node.type == "file" or node.type == "terminal" then
+						local success, web_devicons = pcall(require, "nvim-web-devicons")
+						local name = node.type == "terminal" and "terminal" or node.name
+						if success then
+							local devicon, hl = web_devicons.get_icon(name)
+							icon.text = devicon or icon.text
+							icon.highlight = hl or icon.highlight
+						end
+					end
+				end,
+			},
 			},
 		},
 		config = function(_, opts)

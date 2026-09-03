@@ -241,8 +241,11 @@ return {
 				-- item field formatters
 				formats = {
 					icon = function(item)
-						if item.file and item.icon == "file" or item.icon == "directory" then
-							return M.icon(item.file, item.icon)
+						if item.file and (item.icon == "file" or item.icon == "directory") then
+							local ok, icon = pcall(Snacks.util.icon, item.file, item.icon)
+							if ok and icon then
+								return { icon, width = 2, hl = "icon" }
+							end
 						end
 						return { item.icon, width = 2, hl = "icon" }
 					end,

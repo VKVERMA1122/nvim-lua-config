@@ -1,9 +1,14 @@
 return {
 	"saghen/blink.cmp",
 	dependencies = {
-		"L3MON4D3/LuaSnip",
+		{
+			"L3MON4D3/LuaSnip",
+			config = function()
+				require("luasnip.loaders.from_vscode").lazy_load()
+			end,
+		},
 		"rafamadriz/friendly-snippets",
-	},
+		},
 	event = "InsertEnter",
 	version = "*", -- Use latest stable release
 	opts = {

@@ -37,8 +37,8 @@ opt.foldcolumn = "0"
 opt.foldlevel = 99
 opt.foldlevelstart = 99
 opt.foldenable = true
-vim.wo.foldmethod = "expr"
-vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- Font
 opt.guifont = "FiraCode NFM:h14"
@@ -144,32 +144,3 @@ vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
 	end,
 })
 
--- LSP reference highlight under cursor
-local lsp_ref_highlight = vim.api.nvim_create_augroup("LspReferenceHighlight", { clear = true })
-vim.api.nvim_create_autocmd("CursorMoved", {
-	group = lsp_ref_highlight,
-	desc = "Highlight references under cursor",
-	callback = function()
-		if vim.fn.mode() ~= "i" then
-			local clients = vim.lsp.get_clients({ bufnr = 0 })
-			local supports_highlight = false
-			for _, client in ipairs(clients) do
-				if client.server_capabilities.documentHighlightProvider then
-					supports_highlight = true
-					break
-				end
-			end
-			if supports_highlight then
-				vim.lsp.buf.clear_references()
-				vim.lsp.buf.document_highlight()
-			end
-		end
-	end,
-})
-vim.api.nvim_create_autocmd("CursorMovedI", {
-	group = lsp_ref_highlight,
-	desc = "Clear highlights when entering insert mode",
-	callback = function()
-		vim.lsp.buf.clear_references()
-	end,
-})

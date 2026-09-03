@@ -7,7 +7,7 @@ return {
 
 		-- Improvement: Define common format options once (DRY)
 		local format_opts = {
-			lsp_fallback = true,
+			lsp_format = "fallback",
 			async = false,
 			timeout_ms = 1000,
 		}

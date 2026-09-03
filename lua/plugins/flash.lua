@@ -12,11 +12,7 @@ return {
 	exclude = {
 		"notify",
 		"cmp_menu",
-		"noice",
 		"flash_prompt",
-		"dashboard",
-		"alpha",
-		"ministarter",
 		"snacks_dashboard",
 		function(win)
 			-- exclude non-focusable windows

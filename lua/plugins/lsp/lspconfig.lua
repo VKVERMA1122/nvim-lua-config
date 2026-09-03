@@ -4,7 +4,6 @@ return {
 	dependencies = {
 		{ "williamboman/mason.nvim", opts = {} },
 		"williamboman/mason-lspconfig.nvim",
-		"rafamadriz/friendly-snippets",
 		{
 			"Saghen/blink.cmp",
 		},
@@ -54,12 +53,7 @@ return {
 			},
 		},
 	},
-	opts = {
-		diagnostics = {
-			virtual_text = { spacing = 0 },
-			signs = {},
-		},
-	},
+	opts = {},
 	config = function(_, opts)
 		local lspconfig = require("lspconfig")
 		local mason_lspconfig = require("mason-lspconfig")
@@ -91,12 +85,32 @@ return {
 				end, bufopts)
 				keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", { silent = true })
+
+				-- Document highlight under cursor (per-buffer, lightweight)
+				if client and client.server_capabilities.documentHighlightProvider then
+					local hl_group =
+						vim.api.nvim_create_augroup("lsp_doc_highlight_" .. ev.buf, { clear = true })
+					vim.api.nvim_create_autocmd("CursorHold", {
+						buffer = ev.buf,
+						group = hl_group,
+						callback = vim.lsp.buf.document_highlight,
+					})
+					vim.api.nvim_create_autocmd("CursorMoved", {
+						buffer = ev.buf,
+						group = hl_group,
+						callback = vim.lsp.buf.clear_references,
+					})
+				end
 			end,
 		})
 
 		local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 		vim.diagnostic.config({
+			virtual_text = {
+				spacing = 2,
+				source = "if_many",
+			},
 			signs = {
 				text = {
 					[vim.diagnostic.severity.ERROR] = "󰅚 ",

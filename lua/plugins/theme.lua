@@ -7,9 +7,7 @@ return {
 		require("ember").setup({
 			variant = "ember",
 		})
-		vim.schedule(function()
-			vim.cmd("colorscheme ember")
-		end)
+		vim.cmd("colorscheme ember")
 	end,
 }
 -- return {

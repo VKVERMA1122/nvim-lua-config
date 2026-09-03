@@ -2,13 +2,6 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap -- for conciseness
 
-local function set_keymap(mode, lhs, rhs, opts)
-	local success, err = pcall(keymap.set, mode, lhs, rhs, opts)
-	if not success then
-		vim.api.nvim_err_writeln("Error setting keymap " .. lhs .. ": " .. err)
-	end
-end
-
 local keymaps = {
 	{
 		mode = "i",
@@ -173,5 +166,5 @@ local keymaps = {
 }
 
 for _, map in ipairs(keymaps) do
-	set_keymap(map.mode, map.lhs, map.rhs, map.opts)
+	keymap.set(map.mode, map.lhs, map.rhs, map.opts)
 end
