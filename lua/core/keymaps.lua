@@ -166,20 +166,8 @@ local keymaps = {
 	-- Buffer navigation
 	{
 		mode = "n",
-		lhs = "<tab>",
-		rhs = ":bnext<CR>",
-		opts = { desc = "Go to next buffer" },
-	},
-	{
-		mode = "n",
-		lhs = "<S-tab>",
-		rhs = ":bprevious<CR>",
-		opts = { desc = "Go to previous buffer" },
-	},
-	{
-		mode = "n",
 		lhs = "<leader>bd",
-		rhs = ":bdelete<CR>",
+		rhs = "<cmd>bdelete<CR>",
 		opts = { desc = "Delete current buffer" },
 	},
 }

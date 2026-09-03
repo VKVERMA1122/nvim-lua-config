@@ -1,66 +1,49 @@
 local opt = vim.opt
 
--- Define Vim options in a table for clarity and easy management
--- Refactor: Simplified option setting by directly applying values using vim.opt
-local options = {
-	relativenumber = { value = true, type = "boolean", desc = "Enable relative line numbers" },
-	number = { value = true, type = "boolean", desc = "Enable absolute line numbers" },
-	tabstop = { value = 2, type = "number", desc = "Tab width" },
-	shiftwidth = { value = 2, type = "number", desc = "Indent width" },
-	expandtab = { value = true, type = "boolean", desc = "Expand tabs to spaces" },
-	autoindent = { value = true, type = "boolean", desc = "Copy indent from current line" },
-	wrap = { value = false, type = "boolean", desc = "Disable line wrapping" },
-	ignorecase = { value = true, type = "boolean", desc = "Ignore case in searches" },
-	smartcase = { value = true, type = "boolean", desc = "Smart case in searches" },
-	cursorline = { value = true, type = "boolean", desc = "Enable cursor line" },
-	termguicolors = { value = true, type = "boolean", desc = "Enable true color support" },
-	cmdheight = { value = 0, type = "number", desc = "Reduce command line height" },
-	numberwidth = { value = 3, type = "number", desc = "Number column width" },
-	signcolumn = { value = "yes", type = "string", desc = "Automatic sign column width" },
-	fillchars = {
-		value = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:",
-		type = "string",
-		desc = "Fill characters",
-	},
-	foldcolumn = { value = "0", type = "string", desc = "Fold column width" },
-	foldlevel = { value = 99, type = "number", desc = "Fold level" },
-	foldlevelstart = { value = 99, type = "number", desc = "Fold level start" },
-	foldenable = { value = true, type = "boolean", desc = "Enable folding" },
-	backspace = { value = "indent,eol,start", type = "string", desc = "Backspace behavior" },
-	splitright = { value = true, type = "boolean", desc = "Split vertical window to the right" },
-	splitbelow = { value = true, type = "boolean", desc = "Split horizontal window to the bottom" },
-	swapfile = { value = false, type = "boolean", desc = "Disable swapfile" },
-	clipboard = { value = "unnamedplus", type = "string", desc = "Enable system clipboard integration" },
-	mouse = { value = "a", type = "string", desc = "Mouse support" },
-	showmode = { value = false, type = "boolean", desc = "Show mode in command line" },
-}
+-- General
+opt.relativenumber = true
+opt.number = true
+opt.cursorline = true
+opt.termguicolors = true
+opt.showmode = false
+opt.mouse = "a"
+opt.clipboard = "unnamedplus"
+opt.swapfile = false
 
--- Iterate through the options table and set them using vim.opt
-for name, config in pairs(options) do
-	local success, err = pcall(function()
-		-- Refactor: Directly set vim.opt[name] based on type
-		if config.type == "boolean" then
-			opt[name] = config.value
-		elseif config.type == "number" then
-			opt[name] = tonumber(config.value) -- Ensure value is a number
-		else -- string
-			opt[name] = tostring(config.value) -- Ensure value is a string
-		end
-	end)
-	if not success then
-		vim.notify("Error setting option " .. name .. ": " .. err, vim.log.levels.ERROR)
-	end
-end
+-- Indentation
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.expandtab = true
+opt.autoindent = true
 
--- Specific option settings
--- opt.statuscolumn = "%l%s"                           -- Status column on the right
--- Refactor: Removed redundant guifont setting, using opt consistently
-vim.wo.foldmethod = "expr" -- Use window-local option for foldmethod
-vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Use window-local option for foldexpr
-opt.guifont = "FiraCode NFM:h14" -- Set preferred guifont
+-- Search
+opt.ignorecase = true
+opt.smartcase = true
 
--- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
+-- Splits
+opt.splitright = true
+opt.splitbelow = true
+opt.backspace = "indent,eol,start"
+
+-- UI
+opt.wrap = false
+opt.signcolumn = "yes"
+opt.numberwidth = 3
+opt.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
+opt.cmdheight = 0
+
+-- Folds
+opt.foldcolumn = "0"
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.foldenable = true
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
+-- Font
+opt.guifont = "FiraCode NFM:h14"
+
+-- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
@@ -70,37 +53,25 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	pattern = "*",
 })
 
-local function set_powershell_options()
-	local powershell_options = {
-		shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
-		shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
-		shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
-		shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
-		shellquote = "",
-		shellxquote = "",
-	}
-	for option, value in pairs(powershell_options) do
-		vim.opt[option] = value
-	end
+-- Windows shell options
+if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+	vim.opt.shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell"
+	vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+	vim.opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
+	vim.opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+	vim.opt.shellquote = ""
+	vim.opt.shellxquote = ""
 end
 
---setting shell to powershell
-if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 or vim.fn.has("win16") == 1 then
-	set_powershell_options()
-end
-
---neovide
+-- Neovide
 if vim.g.neovide then
-	-- Put anything you want to happen only in Neovide here
 	vim.o.guifont = "FiraCode NFM:h10.5"
 	vim.g.neovide_padding_top = 0
 	vim.g.neovide_scale_factor = 1.0
 	vim.g.neovide_padding_bottom = 0
 	vim.g.neovide_padding_right = 0
 	vim.g.neovide_padding_left = 0
-
 	vim.g.neovide_cursor_antialiasing = true
-	-- vim.g.neovide_fullscreen = true
 	vim.g.neovide_refresh_rate_idle = 5
 	vim.g.neovide_refresh_rate = 60
 	vim.g.neovide_theme = "auto"
@@ -108,7 +79,7 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_animation_length = 0
 end
 
---terminal options
+-- Terminal options
 vim.api.nvim_create_autocmd("TermOpen", {
 	group = vim.api.nvim_create_augroup("term_options", { clear = true }),
 	callback = function()
@@ -117,7 +88,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	end,
 })
 
---lsp cmp
+-- LSP folding
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -128,37 +99,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
-
 vim.api.nvim_create_autocmd("LspDetach", { command = "setl foldexpr<" })
-vim.diagnostic.config({ virtual_text = true })
 
--- restore cursor to file position in previous editing session
--- vim.api.nvim_create_autocmd("BufReadPost", {
--- 	callback = function(args)
--- 		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
--- 		local line_count = vim.api.nvim_buf_line_count(args.buf)
--- 		if mark[1] > 0 and mark[1] <= line_count then
--- 			vim.api.nvim_win_set_cursor(0, mark)
--- 			-- defer centering slightly so it's applied after render
--- 			vim.schedule(function()
--- 				vim.cmd("normal! zz")
--- 			end)
--- 		end
--- 	end,
--- })
-
--- open help in vertical split
+-- Help in vertical split
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "help",
 	command = "wincmd L",
 })
 
--- auto resize splits when the terminal's window is resized
+-- Auto resize splits
 vim.api.nvim_create_autocmd("VimResized", {
 	command = "wincmd =",
 })
 
--- no auto continue comments on new line
+-- No auto continue comments
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("no_auto_comment", {}),
 	callback = function()
@@ -166,7 +120,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- syntax highlighting for dotenv files
+-- Dotenv files
 vim.api.nvim_create_autocmd("BufRead", {
 	group = vim.api.nvim_create_augroup("dotenv_ft", { clear = true }),
 	pattern = { ".env", ".env.*" },
@@ -175,25 +129,25 @@ vim.api.nvim_create_autocmd("BufRead", {
 	end,
 })
 
--- show cursorline only in active window enable
+-- Cursorline only in active window
+local active_cursorline = vim.api.nvim_create_augroup("active_cursorline", { clear = true })
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
-	group = vim.api.nvim_create_augroup("active_cursorline", { clear = true }),
+	group = active_cursorline,
 	callback = function()
 		vim.opt_local.cursorline = true
 	end,
 })
-
--- show cursorline only in active window disable
 vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
-	group = "active_cursorline",
+	group = active_cursorline,
 	callback = function()
 		vim.opt_local.cursorline = false
 	end,
 })
 
--- ide like highlight when stopping cursor
+-- LSP reference highlight under cursor
+local lsp_ref_highlight = vim.api.nvim_create_augroup("LspReferenceHighlight", { clear = true })
 vim.api.nvim_create_autocmd("CursorMoved", {
-	group = vim.api.nvim_create_augroup("LspReferenceHighlight", { clear = true }),
+	group = lsp_ref_highlight,
 	desc = "Highlight references under cursor",
 	callback = function()
 		if vim.fn.mode() ~= "i" then
@@ -213,7 +167,7 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 	end,
 })
 vim.api.nvim_create_autocmd("CursorMovedI", {
-	group = "LspReferenceHighlight",
+	group = lsp_ref_highlight,
 	desc = "Clear highlights when entering insert mode",
 	callback = function()
 		vim.lsp.buf.clear_references()

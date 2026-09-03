@@ -3,8 +3,6 @@ return {
 	dependencies = {
 		"L3MON4D3/LuaSnip",
 		"rafamadriz/friendly-snippets",
-		"saghen/blink.compat",
-		-- "rafamadriz/jsregexp",
 	},
 	event = "InsertEnter",
 	version = "*", -- Use latest stable release
@@ -58,14 +56,7 @@ return {
 			end,
 		},
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer", "supermaven" },
-			providers = {
-				supermaven = {
-					name = "supermaven",
-					module = "blink.compat.source",
-					score_offset = 3,
-				},
-			},
+			default = { "lsp", "path", "snippets", "buffer" },
 		},
 	},
 }

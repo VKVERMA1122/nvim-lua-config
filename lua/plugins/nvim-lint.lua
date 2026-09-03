@@ -5,14 +5,7 @@ return {
 		-- Refactor: Removed redundant events option, using event from plugin spec
 
 		linters_by_ft = {
-			javascript = { "biomejs" },
-			typescript = { "biomejs" },
-			javascriptreact = { "biomejs" },
-			typescriptreact = { "biomejs" },
 			go = { "golangcilint" },
-			-- text = { "cspell" },
-			--lua = { "selene" },
-			-- ["*"] = { "cspell" }, -- Apply to all filetypes
 		},
 		-- LazyVim extension to easily override linter options
 		-- or add custom linters.

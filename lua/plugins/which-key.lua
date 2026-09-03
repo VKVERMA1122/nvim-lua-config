@@ -8,5 +8,13 @@ return {
 	end,
 	opts = {
 		preset = "helix",
+		spec = {
+			{ "<leader>c", group = "Code" },
+			{ "<leader>f", group = "Find" },
+			{ "<leader>h", group = "Hunk" },
+			{ "<leader>s", group = "Search" },
+			{ "<leader>b", group = "Buffer" },
+			{ "<leader>g", group = "Git" },
+		},
 	},
 }
