@@ -40,8 +40,9 @@ return {
 				gs.diffthis("~")
 			end, "Diff this ~")
 
-			-- Text object
-			map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "Gitsigns select hunk")
+			-- Text object (ig = inside hunk, ag = around hunk)
+			map({ "o", "x" }, "ig", ":<C-U>Gitsigns select_hunk<CR>", "Inside hunk")
+			map({ "o", "x" }, "ag", ":<C-U>Gitsigns select_hunk<CR>", "Around hunk")
 		end,
 	},
 }

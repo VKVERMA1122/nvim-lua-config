@@ -9,13 +9,15 @@ return {
 	opts = {
 		preset = "helix",
 		spec = {
-			{ "<leader>c", group = "Code" },
 			{ "<leader>f", group = "Find" },
-			{ "<leader>h", group = "Hunk" },
-			{ "<leader>s", group = "Search" },
-			{ "<leader>b", group = "Buffer" },
 			{ "<leader>g", group = "Git" },
-			{ "<leader>x", group = "Diagnostics / Trouble" },
+			{ "<leader>h", group = "Hunk" },
+			{ "<leader>l", group = "LSP" },
+			{ "<leader>b", group = "Buffer" },
+			{ "<leader>t", group = "Terminal" },
+			{ "<leader>u", group = "UI/UX Toggle" },
+			{ "<leader>x", group = "Diagnostics / Lists" },
+			{ "<leader>n", group = "Notifier" },
 		},
 	},
 }

@@ -40,8 +40,9 @@ opt.foldenable = true
 opt.foldmethod = "expr"
 opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
--- Font
-opt.guifont = "FiraCode NFM:h14"
+-- Font (family name differs between Windows and Linux fontconfig)
+local nerd_font = vim.fn.has("win32") == 1 and "FiraCode NFM" or "FiraCode Nerd Font Mono"
+opt.guifont = nerd_font .. ":h14"
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
@@ -65,7 +66,7 @@ end
 
 -- Neovide
 if vim.g.neovide then
-	vim.o.guifont = "FiraCode NFM:h10.5"
+	vim.o.guifont = nerd_font .. ":h10.5"
 	vim.g.neovide_padding_top = 0
 	vim.g.neovide_scale_factor = 1.0
 	vim.g.neovide_padding_bottom = 0

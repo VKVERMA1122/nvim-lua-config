@@ -53,59 +53,40 @@ return {
 			},
 		},
 	},
-	opts = {},
-	config = function(_, opts)
-		local lspconfig = require("lspconfig")
-		local mason_lspconfig = require("mason-lspconfig")
+	config = function()
 		local navic = require("nvim-navic")
 
-		local keymap = vim.keymap
-		local bufopts = { silent = true, buffer = true }
-
-		vim.api.nvim_create_autocmd("LspAttach", {
-			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-			callback = function(ev)
-				local client = vim.lsp.get_client_by_id(ev.data.client_id)
-
-				-- Attach navic to LSP if it supports documentSymbolProvider
-				if client and client.server_capabilities.documentSymbolProvider then
-					navic.attach(client, ev.buf)
-				end
-
-				bufopts.buffer = ev.buf
-				keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-				keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-				keymap.set("n", "<leader>d", vim.diagnostic.open_float, bufopts)
-				keymap.set("n", "[d", function()
-					vim.diagnostic.jump({ count = -1, float = true })
-				end, bufopts)
-				keymap.set("n", "]d", function()
-					vim.diagnostic.jump({ count = 1, float = true })
-				end, bufopts)
-				keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-				keymap.set("n", "<leader>rs", ":LspRestart<CR>", { silent = true })
-
-				-- Document highlight under cursor (per-buffer, lightweight)
-				if client and client.server_capabilities.documentHighlightProvider then
-					local hl_group =
-						vim.api.nvim_create_augroup("lsp_doc_highlight_" .. ev.buf, { clear = true })
-					vim.api.nvim_create_autocmd("CursorHold", {
-						buffer = ev.buf,
-						group = hl_group,
-						callback = vim.lsp.buf.document_highlight,
-					})
-					vim.api.nvim_create_autocmd("CursorMoved", {
-						buffer = ev.buf,
-						group = hl_group,
-						callback = vim.lsp.buf.clear_references,
-					})
-				end
-			end,
+		-- Broadcast blink.cmp capabilities to ALL LSP clients.
+		-- Must be set before servers are enabled so they pick up the capabilities.
+		vim.lsp.config("*", {
+			capabilities = require("blink.cmp").get_lsp_capabilities(),
 		})
 
-		local capabilities = require("blink.cmp").get_lsp_capabilities()
+		-- Per-server overrides. These merge with the bundled lsp/<name>.lua
+		-- defaults shipped by nvim-lspconfig (auto-loaded on the runtimepath).
+		vim.lsp.config("lua_ls", {
+			settings = {
+				Lua = {
+					diagnostics = { globals = { "vim" } },
+				},
+			},
+		})
 
+		vim.lsp.config("biome", {
+			filetypes = { "javascript", "javascriptreact", "json", "jsonc", "typescript", "typescriptreact" },
+			root_markers = { "biome.json", "biome.jsonc", "package.json", ".git" },
+		})
+
+		-- mason-lspconfig v2: auto-enable any servers you've installed manually
+		-- via :Mason / :LspInstall. `automatic_enable` only calls
+		-- vim.lsp.enable() for already-installed servers — it does NOT install
+		-- anything. (The old `handlers`/`ensure_installed` auto-install API was
+		-- removed in v2.)
+		require("mason-lspconfig").setup({
+			automatic_enable = true,
+		})
+
+		-- Diagnostics
 		vim.diagnostic.config({
 			virtual_text = {
 				spacing = 2,
@@ -121,39 +102,39 @@ return {
 			},
 		})
 
-		mason_lspconfig.setup({
-			ensure_installed = {
-				"biome",
-				"ts_ls",
-				"lua_ls",
-				"prismals",
-			},
-			handlers = {
-				function(server_name)
-					local server_config = {
-						capabilities = capabilities,
-					}
+		-- Keymaps, navic attach and document highlight on LSP attach.
+		local keymap = vim.keymap
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+			callback = function(ev)
+				local client = vim.lsp.get_client_by_id(ev.data.client_id)
+				local bufopts = { silent = true, buffer = ev.buf }
 
-					if server_name == "lua_ls" then
-						server_config.settings = {
-							Lua = {
-								diagnostics = { globals = { "vim" } },
-							},
-						}
-					end
+				-- Attach navic to LSP if it supports documentSymbolProvider
+				if client and client.server_capabilities.documentSymbolProvider then
+					navic.attach(client, ev.buf)
+				end
 
-					if server_name == "biome" then
-						server_config.filetypes = { "javascript", "javascriptreact", "json", "jsonc", "typescript", "typescriptreact" }
-						server_config.root_dir = lspconfig.util.root_pattern("biome.json", "biome.jsonc", "package.json", ".git")
-					end
+				-- LSP actions grouped under <leader>l (AstroNvim style).
+				keymap.set("n", "<leader>la", vim.lsp.buf.code_action, bufopts)
+				keymap.set("v", "<leader>la", vim.lsp.buf.code_action, bufopts)
+				keymap.set("n", "<leader>lr", vim.lsp.buf.rename, bufopts)
+				keymap.set("n", "<leader>ld", vim.diagnostic.open_float, bufopts)
+				keymap.set("n", "<leader>li", "<cmd>LspInfo<CR>", bufopts)
+				keymap.set("n", "<leader>lR", ":LspRestart<CR>", { silent = true })
+				keymap.set("n", "[d", function()
+					vim.diagnostic.jump({ count = -1, float = true })
+				end, bufopts)
+				keymap.set("n", "]d", function()
+					vim.diagnostic.jump({ count = 1, float = true })
+				end, bufopts)
+				keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 
-					if opts.servers and opts.servers[server_name] then
-						server_config = vim.tbl_deep_extend("force", server_config, opts.servers[server_name])
-					end
-
-					lspconfig[server_name].setup(server_config)
-				end,
-			},
+				-- Word-under-cursor reference highlighting is handled by
+				-- snacks.words (enabled in snacks.lua): same documentHighlight
+				-- LSP method, debounced + multi-client aware. No manual
+				-- CursorHold/CursorMoved autocmd here (would double-highlight).
+			end,
 		})
 	end,
 }

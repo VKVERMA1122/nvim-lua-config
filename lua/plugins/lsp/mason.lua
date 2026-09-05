@@ -1,8 +1,7 @@
 return {
 	"williamboman/mason.nvim",
 	config = function()
-		local mason = require("mason")
-		mason.setup({
+		require("mason").setup({
 			ui = {
 				icons = {
 					package_installed = "✓",
@@ -11,9 +10,5 @@ return {
 				},
 			},
 		})
-
-		-- require("mason-tool-installer").setup({
-		-- 	ensure_installed = { "cspell" },
-		-- })
 	end,
 }

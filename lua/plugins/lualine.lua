@@ -200,7 +200,7 @@ return {
 					end,
 				},
 			},
-			extensions = { "neo-tree", "lazy", "fzf", "mason", "trouble" },
+			extensions = { "neo-tree", "lazy", "fzf", "mason" },
 			inactive_sections = {
 				lualine_a = {},
 				lualine_b = {},
