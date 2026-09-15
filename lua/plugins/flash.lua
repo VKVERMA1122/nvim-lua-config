@@ -2,22 +2,23 @@ return {
 	"folke/flash.nvim",
 	event = "VeryLazy",
 	opts = {
+		search = {
+			exclude = {
+				"notify",
+				"cmp_menu",
+				"flash_prompt",
+				"snacks_dashboard",
+				function(win)
+					-- exclude non-focusable windows
+					return not vim.api.nvim_win_get_config(win).focusable
+				end,
+			},
+		},
 		modes = {
 			char = {
 				jump_labels = true,
 			},
 		},
-	},
-
-	exclude = {
-		"notify",
-		"cmp_menu",
-		"flash_prompt",
-		"snacks_dashboard",
-		function(win)
-			-- exclude non-focusable windows
-			return not vim.api.nvim_win_get_config(win).focusable
-		end,
 	},
 	keys = {
 		{

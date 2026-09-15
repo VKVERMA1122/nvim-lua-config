@@ -21,62 +21,9 @@ return {
 			end
 		end
 
-		-- Formatter status (only show if formatters exist)
-		local function formatter_status()
-			local ok, formatters = pcall(require("conform").list_formatters, 0)
-			return ok
-					and #formatters > 0
-					and table.concat(
-						vim.tbl_map(function(f)
-							return f.name
-						end, formatters),
-						", "
-					)
-				or nil
-		end
-
-		-- Diagnostics status using LSP
-		local function diagnostics_status()
-			local diagnostics = vim.diagnostic.get(0)
-			local error_count = 0
-			local warning_count = 0
-
-			for _, diagnostic in ipairs(diagnostics) do
-				if diagnostic.severity == vim.diagnostic.severity.ERROR then
-					error_count = error_count + 1
-				elseif diagnostic.severity == vim.diagnostic.severity.WARN then
-					warning_count = warning_count + 1
-				end
-			end
-
-			if error_count > 0 or warning_count > 0 then
-				return string.format("E:%d W:%d", error_count, warning_count)
-			else
-				return nil
-			end
-		end
-
-		-- Linting status using nvim-lint
-		local function lint_status()
-			local diagnostics = vim.diagnostic.get(0)
-			local lint_error_count = 0
-			local lint_warning_count = 0
-
-			for _, diagnostic in ipairs(diagnostics) do
-				if diagnostic.source == "nvim-lint" then
-					if diagnostic.severity == vim.diagnostic.severity.ERROR then
-						lint_error_count = lint_error_count + 1
-					elseif diagnostic.severity == vim.diagnostic.severity.WARN then
-						lint_warning_count = lint_warning_count + 1
-					end
-				end
-			end
-
-			if lint_error_count > 0 or lint_warning_count > 0 then
-				return string.format("L:%d W:%d", lint_error_count, lint_warning_count)
-			else
-				return nil
-			end
+		local function navic_location()
+			local ok, navic = pcall(require, "nvim-navic")
+			return ok and navic.is_available() and navic.get_location() or nil
 		end
 
 		lualine.setup({
@@ -115,6 +62,10 @@ return {
 						},
 					},
 					{
+						navic_location,
+						color = { fg = "#7aa2f7" },
+					},
+					{
 						"diagnostics",
 						symbols = {
 							error = " ",
@@ -132,39 +83,6 @@ return {
 						color = { fg = "#98be65" },
 						padding = { left = 1, right = 1 },
 						separator = " ",
-						cond = function()
-							return lsp_clients() ~= nil
-						end,
-					},
-					-- {
-					-- 	formatter_status,
-					-- 	icon = "",
-					-- 	color = { fg = "#ff6c6b" },
-					-- 	padding = { left = 1, right = 1 },
-					-- 	separator = " ",
-					-- 	cond = function()
-					-- 		return formatter_status() ~= nil
-					-- 	end,
-					-- },
-					{
-						lint_status,
-						icon = "",
-						color = { fg = "#ffcc00" },
-						padding = { left = 1, right = 1 },
-						separator = " ",
-						cond = function()
-							return lint_status() ~= nil
-						end,
-					},
-					{
-						diagnostics_status,
-						icon = "",
-						color = { fg = "#51afef" },
-						padding = { left = 1, right = 1 },
-						separator = " ",
-						cond = function()
-							return diagnostics_status() ~= nil
-						end,
 					},
 					{
 						"diff",

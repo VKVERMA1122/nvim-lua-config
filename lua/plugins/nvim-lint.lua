@@ -39,14 +39,26 @@ return {
 		lint.linters_by_ft = opts.linters_by_ft
 
 		function M.debounce(ms, fn)
-			local timer = vim.uv.new_timer()
-			return function(...)
-				local argv = { ... }
+			local timers = {}
+			return function(args)
+				local bufnr = args.buf
+				if timers[bufnr] then
+					timers[bufnr]:stop()
+					timers[bufnr]:close()
+				end
+				local timer = vim.uv.new_timer()
+				timers[bufnr] = timer
 				timer:start(ms, 0, function()
 					timer:stop()
-					vim.schedule_wrap(function()
-						fn(argv)
-					end)()
+					timer:close()
+					timers[bufnr] = nil
+					vim.schedule(function()
+						if vim.api.nvim_buf_is_valid(bufnr) then
+							vim.api.nvim_buf_call(bufnr, function()
+								fn(args)
+							end)
+						end
+					end)
 				end)
 			end
 		end

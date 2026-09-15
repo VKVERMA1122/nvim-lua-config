@@ -6,11 +6,13 @@ return {
 	keys = {
 		{ "<Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
 		{ "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
-
 	},
 	opts = {
 		options = {
-			filetype_exclude = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
+			custom_filter = function(bufnr)
+				local excluded = { "dashboard", "alpha", "ministarter", "snacks_dashboard" }
+				return not vim.tbl_contains(excluded, vim.bo[bufnr].filetype)
+			end,
 			mode = "buffer",
 			diagnostics = "nvim_lsp",
 			diagnostics_update_on_event = true, -- use nvim's diagnostic handler

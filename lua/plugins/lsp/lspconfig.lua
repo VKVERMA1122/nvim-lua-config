@@ -2,8 +2,8 @@ return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-		{ "williamboman/mason.nvim", opts = {} },
-		"williamboman/mason-lspconfig.nvim",
+		{ "mason-org/mason.nvim", opts = {} },
+		"mason-org/mason-lspconfig.nvim",
 		{
 			"Saghen/blink.cmp",
 		},
@@ -77,12 +77,10 @@ return {
 			root_markers = { "biome.json", "biome.jsonc", "package.json", ".git" },
 		})
 
-		-- mason-lspconfig v2: auto-enable any servers you've installed manually
-		-- via :Mason / :LspInstall. `automatic_enable` only calls
-		-- vim.lsp.enable() for already-installed servers — it does NOT install
-		-- anything. (The old `handlers`/`ensure_installed` auto-install API was
-		-- removed in v2.)
+		-- mason-lspconfig v2 installs the declared servers and automatically
+		-- enables installed servers through Neovim's vim.lsp API.
 		require("mason-lspconfig").setup({
+			ensure_installed = { "lua_ls", "biome", "gopls", "ts_ls" },
 			automatic_enable = true,
 		})
 
@@ -105,10 +103,12 @@ return {
 		-- Keymaps, navic attach and document highlight on LSP attach.
 		local keymap = vim.keymap
 		vim.api.nvim_create_autocmd("LspAttach", {
-			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+			group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
 			callback = function(ev)
 				local client = vim.lsp.get_client_by_id(ev.data.client_id)
-				local bufopts = { silent = true, buffer = ev.buf }
+				local function map(mode, lhs, rhs, desc)
+					keymap.set(mode, lhs, rhs, { silent = true, buffer = ev.buf, desc = desc })
+				end
 
 				-- Attach navic to LSP if it supports documentSymbolProvider
 				if client and client.server_capabilities.documentSymbolProvider then
@@ -116,19 +116,18 @@ return {
 				end
 
 				-- LSP actions grouped under <leader>l (AstroNvim style).
-				keymap.set("n", "<leader>la", vim.lsp.buf.code_action, bufopts)
-				keymap.set("v", "<leader>la", vim.lsp.buf.code_action, bufopts)
-				keymap.set("n", "<leader>lr", vim.lsp.buf.rename, bufopts)
-				keymap.set("n", "<leader>ld", vim.diagnostic.open_float, bufopts)
-				keymap.set("n", "<leader>li", "<cmd>LspInfo<CR>", bufopts)
-				keymap.set("n", "<leader>lR", ":LspRestart<CR>", { silent = true })
-				keymap.set("n", "[d", function()
+				map({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, "Code action")
+				map("n", "<leader>lr", vim.lsp.buf.rename, "Rename symbol")
+				map("n", "<leader>ld", vim.diagnostic.open_float, "Line diagnostics")
+				map("n", "<leader>li", "<cmd>LspInfo<CR>", "LSP info")
+				map("n", "<leader>lR", "<cmd>LspRestart<CR>", "Restart LSP")
+				map("n", "[d", function()
 					vim.diagnostic.jump({ count = -1, float = true })
-				end, bufopts)
-				keymap.set("n", "]d", function()
+				end, "Previous diagnostic")
+				map("n", "]d", function()
 					vim.diagnostic.jump({ count = 1, float = true })
-				end, bufopts)
-				keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+				end, "Next diagnostic")
+				map("n", "K", vim.lsp.buf.hover, "Hover documentation")
 
 				-- Word-under-cursor reference highlighting is handled by
 				-- snacks.words (enabled in snacks.lua): same documentHighlight

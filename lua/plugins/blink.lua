@@ -8,7 +8,7 @@ return {
 			end,
 		},
 		"rafamadriz/friendly-snippets",
-		},
+	},
 	event = "InsertEnter",
 	version = "*", -- Use latest stable release
 	opts = {

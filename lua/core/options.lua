@@ -8,7 +8,9 @@ opt.termguicolors = true
 opt.showmode = false
 opt.mouse = "a"
 opt.clipboard = "unnamedplus"
-opt.swapfile = false
+opt.swapfile = true
+opt.undofile = true
+opt.confirm = true
 
 -- Indentation
 opt.tabstop = 2
@@ -27,6 +29,8 @@ opt.backspace = "indent,eol,start"
 
 -- UI
 opt.wrap = false
+opt.scrolloff = 4
+opt.sidescrolloff = 8
 opt.signcolumn = "yes"
 opt.numberwidth = 3
 opt.fillchars = "eob: ,fold: ,foldopen:,foldsep: ,foldclose:"
@@ -57,7 +61,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- Windows shell options
 if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
 	vim.opt.shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell"
-	vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+	vim.opt.shellcmdflag =
+		"-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
 	vim.opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
 	vim.opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
 	vim.opt.shellquote = ""
@@ -144,4 +149,3 @@ vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
 		vim.opt_local.cursorline = false
 	end,
 })
-
