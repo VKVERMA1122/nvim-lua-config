@@ -8,6 +8,10 @@ return {
 			end,
 		},
 		"rafamadriz/friendly-snippets",
+		{
+			"mikavilpas/blink-ripgrep.nvim",
+			version = "*", -- use the latest stable version
+		},
 	},
 	event = "InsertEnter",
 	version = "*", -- Use latest stable release
@@ -61,7 +65,17 @@ return {
 			end,
 		},
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer" },
+			default = { "lsp", "path", "snippets", "buffer", "ripgrep" },
+			providers = {
+				ripgrep = {
+					module = "blink-ripgrep",
+					name = "Ripgrep",
+					-- see the full configuration below for all available options
+					---@module "blink-ripgrep"
+					---@type blink-ripgrep.Options
+					opts = {},
+				},
+			},
 		},
 	},
 }
